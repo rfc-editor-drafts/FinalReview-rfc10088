@@ -1,0 +1,2578 @@
+<!DOCTYPE html>
+<html lang="en" class="RFC">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>RFC 0: Communicating Proxy Configurations in Provisioning Domains</title>
+<meta content="Tommy Pauly" name="author">
+<meta content="Dragana Damjanovic" name="author">
+<meta content="Yaroslav Rosomakho" name="author">
+<meta content="
+       This document defines a mechanism for accessing provisioning domain information
+associated with a proxy, such as other proxy URIs that support different protocols
+and information about which destinations are accessible using a proxy. 
+    " name="description">
+<meta content="xml2rfc 3.34.0" name="generator">
+<meta content="0" name="rfc.number">
+<!-- Generator version information:
+  xml2rfc 3.34.0
+    Python 3.14.7
+    ConfigArgParse 1.7.5
+    google-i18n-address 3.1.1
+    intervaltree 3.2.1
+    Jinja2 3.1.6
+    lxml 6.1.3
+    natsort 8.4.0
+    platformdirs 4.11.7
+    pycountry 26.2.16
+    PyYAML 6.0.3
+    requests 2.34.2
+    wcwidth 0.8.3
+    weasyprint 69.0
+-->
+<link href="draft-ietf-intarea-proxy-config-14.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">/*
+
+  NOTE: Changes at the bottom of this file overrides some earlier settings.
+
+  Once the style has stabilized and has been adopted as an official RFC style,
+  this can be consolidated so that style settings occur only in one place, but
+  for now the contents of this file consists first of the initial CSS work as
+  provided to the RFC Formatter (xml2rfc) work, followed by itemized and
+  commented changes found necessary during the development of the v3
+  formatters.
+
+*/
+
+/* fonts */
+@import url('https://static.ietf.org/fonts/noto-sans/import.css'); /* Sans-serif */
+@import url('https://static.ietf.org/fonts/noto-serif/import.css'); /* Serif (print) */
+@import url('https://static.ietf.org/fonts/roboto-mono/import.css'); /* Monospace */
+
+:root {
+  --font-sans: 'Noto Sans', Arial, Helvetica, sans-serif;
+  --font-serif: 'Noto Serif', 'Times', 'Times New Roman', serif;
+  --font-mono: 'Roboto Mono', Courier, 'Courier New', monospace;
+}
+
+@viewport {
+  zoom: 1.0;
+}
+@-ms-viewport {
+  width: extend-to-zoom;
+  zoom: 1.0;
+}
+/* general and mobile first */
+html {
+}
+body {
+  max-width: 90%;
+  margin: 1.5em auto;
+  color: #222;
+  background-color: #fff;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  scroll-behavior: smooth;
+  overflow-wrap: break-word;
+}
+.ears {
+  display: none;
+}
+
+/* headings */
+#title, h1, h2, h3, h4, h5, h6 {
+  margin: 1em 0 0.5em;
+  font-weight: bold;
+  line-height: 1.3;
+}
+#title {
+  clear: both;
+  border-bottom: 1px solid #ddd;
+  margin: 0 0 0.5em 0;
+  padding: 1em 0 0.5em;
+}
+.author {
+  padding-bottom: 4px;
+}
+h1 {
+  font-size: 26px;
+  margin: 1em 0;
+}
+h2 {
+  font-size: 22px;
+  margin-top: -20px;  /* provide offset for in-page anchors */
+  padding-top: 33px;
+}
+h3 {
+  font-size: 18px;
+  margin-top: -36px;  /* provide offset for in-page anchors */
+  padding-top: 42px;
+}
+h4 {
+  font-size: 16px;
+  margin-top: -36px;  /* provide offset for in-page anchors */
+  padding-top: 42px;
+}
+h5, h6 {
+  font-size: 14px;
+}
+#n-copyright-notice {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+}
+/* general structure */
+p {
+  padding: 0;
+  margin: 0 0 1em 0;
+  text-align: left;
+}
+div, span {
+  position: relative;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  padding: 1em 1em 0;
+  margin-bottom: 1.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+@media print {
+  svg {
+    max-height: 850px;
+    max-width: 660px;
+  }
+}
+svg[font-family~="serif" i], svg [font-family~="serif" i] {
+  font-family: var(--font-serif);
+}
+svg[font-family~="sans-serif" i], svg [font-family~="sans-serif" i] {
+  font-family: var(--font-sans);
+}
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  padding: 1em 1em 0;
+  margin-bottom: 1.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  display: table;
+  border: none;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 1em 2em;
+}
+ol ol, ul ul, ol ul, ul ol {
+  margin-left: 1em;
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+ul.ulBare, li.ulBare {
+  margin-left: 0em !important;
+}
+ul.compact, .ulCompact,
+ol.compact, .olCompact {
+  line-height: 100%;
+  margin: 0 0 0 2em;
+}
+
+/* definition lists */
+dl {
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+/* 
+dl.nohang > dt {
+  float: none;
+}
+*/
+dl > dd {
+  margin-bottom: .8em;
+  min-height: 1.3em;
+}
+dl.compact > dd, .dlCompact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+
+/* links */
+a {
+  text-decoration: none;
+}
+a[href] {
+  color: #22e; /* Arlen: WCAG 2019 */
+}
+a[href]:hover {
+  background-color: #f2f2f2;
+}
+figcaption a[href],
+a[href].selfRef {
+  color: #222;
+}
+/* XXX probably not this:
+a.selfRef:hover {
+  background-color: transparent;
+  cursor: default;
+} */
+
+/* Figures */
+tt, code, pre {
+  background-color: #f9f9f9;
+  font-family: var(--font-mono);
+}
+pre {
+  border: 1px solid #eee;
+  margin: 0;
+  padding: 1em;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption {
+  font-style: italic;
+  margin: 0 0 1em 0;
+}
+@media screen {
+  pre {
+    overflow-x: auto;
+    max-width: 100%;
+    max-width: calc(100% - 22px);
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 1.2em 2em;
+}
+blockquote {
+  background-color: #f9f9f9;
+  color: #111; /* Arlen: WCAG 2019 */
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  margin: 1em 0;
+}
+blockquote > *:last-child {
+  margin-bottom: 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+.xref {
+  overflow-wrap: normal;
+}
+
+/* tables */
+table {
+  width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+  border: 1px solid #eee;
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.5em 0.75em;
+}
+th {
+  text-align: left;
+  background-color: #e9e9e9;
+}
+tr:nth-child(2n+1) > td {
+  background-color: #f5f5f5;
+}
+table caption {
+  font-style: italic;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+table p {
+  /* XXX to avoid bottom margin on table row signifiers. If paragraphs should
+     be allowed within tables more generally, it would be far better to select on a class. */
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  color: #666; /* Arlen: AHDJ 2019 */
+  text-decoration: none;
+  visibility: hidden;
+  user-select: none;
+  -ms-user-select: none;
+  -o-user-select:none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+@media screen {
+  aside:hover > a.pilcrow,
+  p:hover > a.pilcrow,
+  blockquote:hover > a.pilcrow,
+  div:hover > a.pilcrow,
+  li:hover > a.pilcrow,
+  pre:hover > a.pilcrow {
+    visibility: visible;
+  }
+  a.pilcrow:hover {
+    background-color: transparent;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+.bcp14 {
+  font-variant: small-caps;
+}
+
+.role {
+  font-variant: all-small-caps;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: 0.9em;
+}
+#identifiers dt {
+  width: 3em;
+  clear: left;
+}
+#identifiers dd {
+  float: left;
+  margin-bottom: 0;
+}
+/* Fix PDF info block run off issue */
+@media print {
+  #identifiers dd {
+    max-width: 100%;
+  }
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #666; /* Arlen: WCAG 2019 */
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc  {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+nav.toc ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+nav.toc li {
+  line-height: 1.3em;
+  margin: 0.75em 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 7em;
+}
+.references dd {
+  margin-left: 8em;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.refSubseries {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+.index ul {
+  margin: 0 0 0 1em;
+  padding: 0;
+  list-style: none;
+}
+.index ul ul {
+  margin: 0;
+}
+.index li {
+  margin: 0;
+  text-indent: -2em;
+  padding-left: 2em;
+  padding-bottom: 5px;
+}
+.indexIndex {
+  margin: 0.5em 0 1em;
+}
+.index a {
+  font-weight: 700;
+}
+/* make the index two-column on all but the smallest screens */
+@media (min-width: 600px) {
+  .index ul {
+    -moz-column-count: 2;
+    -moz-column-gap: 20px;
+  }
+  .index ul ul {
+    -moz-column-count: 1;
+    -moz-column-gap: 0;
+  }
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  font-family: var(--font-sans);
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+
+/* temporary notes */
+.rfcEditorRemove::before {
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
+  padding: 0.2em;
+  content: "The RFC Editor will remove this note";
+  color: #9e2a00; /* Arlen: WCAG 2019 */
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+}
+.rfcEditorRemove {
+  position: relative;
+  padding-top: 1.8em;
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+  border-radius: 3px;
+}
+.cref {
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 1023px) {
+  body {
+    padding-top: 2em;
+  }
+  #title {
+    padding: 1em 0;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  h2 {
+    font-size: 20px;
+    margin-top: -18px;  /* provide offset for in-page anchors */
+    padding-top: 38px;
+  }
+  #identifiers dd {
+    max-width: 60%;
+  }
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    background-color: inherit;
+    border-bottom: 1px solid #ccc;
+  }
+  #toc h2 {
+    margin: -1px 0 0 0;
+    padding: 4px 0 4px 6px;
+    padding-right: 1em;
+    min-width: 190px;
+    font-size: 1.1em;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 6px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 1024px) {
+  body {
+    max-width: 724px;
+    margin: 42px auto;
+    padding-left: 1.5em;
+    padding-right: 29em;
+  }
+  #toc {
+    position: fixed;
+    top: 42px;
+    right: 42px;
+    width: 25%;
+    margin: 0;
+    padding: 0 1em;
+    z-index: 1;
+  }
+  #toc h2 {
+    border-top: none;
+    border-bottom: 1px solid #ddd;
+    font-size: 1em;
+    font-weight: normal;
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 0;
+    overflow: auto;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre {
+    page-break-inside: avoid;
+  }
+  figure {
+    overflow: scroll;
+  }
+  .breakable pre {
+    break-inside: auto;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  h2+*, h3+*, h4+*, h5+*, h6+* {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+/* This is commented out here, as the string-set: doesn't
+   pass W3C validation currently */
+/*
+.ears thead .left {
+  string-set: ears-top-left content();
+}
+
+.ears thead .center {
+  string-set: ears-top-center content();
+}
+
+.ears thead .right {
+  string-set: ears-top-right content();
+}
+
+.ears tfoot .left {
+  string-set: ears-bottom-left content();
+}
+
+.ears tfoot .center {
+  string-set: ears-bottom-center content();
+}
+
+.ears tfoot .right {
+  string-set: ears-bottom-right content();
+}
+*/
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+  /* The following is commented out here, but set appropriately by in code, as
+     the content depends on the document */
+  /*
+  @top-left {
+    content: 'Internet-Draft';
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-left {
+    content: string(ears-top-left);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-center {
+    content: string(ears-top-center);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-right {
+    content: string(ears-top-right);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @bottom-left {
+    content: string(ears-bottom-left);
+    vertical-align: top;
+    border-top: solid 1px #ccc;
+  }
+  @bottom-center {
+    content: string(ears-bottom-center);
+    vertical-align: top;
+    border-top: solid 1px #ccc;
+  }
+  @bottom-right {
+      content: '[Page ' counter(page) ']';
+      vertical-align: top;
+      border-top: solid 1px #ccc;
+  }
+  */
+
+}
+
+/* Changes introduced to fix issues found during implementation */
+/* Make sure links are clickable even if overlapped by following H* */
+a {
+  z-index: 2;
+}
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Leave room in document info to show Internet-Draft on one line */
+#identifiers dt {
+  width: 8em;
+}
+
+/* Don't waste quite as much whitespace between label and value in doc info */
+#identifiers dd {
+  margin-left: 1em;
+}
+
+/* Give floating toc a background color (needed when it's a div inside section */
+#toc {
+  background-color: white;
+}
+
+/* Make the collapsed ToC header render white on gray also when it's a link */
+@media screen and (max-width: 1023px) {
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+}
+
+/* Give the bottom of the ToC some whitespace */
+@media screen and (min-width: 1024px) {
+  #toc {
+    padding: 0 0 1em 1em;
+  }
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* prevent monospace from becoming overly large */
+tt, code, pre {
+  font-size: 95%;
+}
+
+/* Fix the height/width aspect for ascii art*/
+.sourcecode pre,
+.art-text pre {
+  line-height: 1.12;
+}
+
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin-right: 0.5em;
+}
+
+/* Fix the dl styling to match the RFC 7992 attributes */
+dl > dt,
+dl.dlParallel > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+
+/* Provide styling for table cell text alignment */
+table td.text-left,
+table th.text-left {
+  text-align: left;
+}
+table td.text-center,
+table th.text-center {
+  text-align: center;
+}
+table td.text-right,
+table th.text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 30em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Provide table alignment support.  We can't use the alignX classes above
+   since they do unwanted things with caption and other styling. */
+table.right {
+ margin-left: auto;
+ margin-right: 0;
+}
+table.center {
+ margin-left: auto;
+ margin-right: auto;
+}
+table.left {
+ margin-left: 0;
+ margin-right: auto;
+}
+
+/* Give the table caption label the same styling as the figcaption */
+caption a[href] {
+  color: #222;
+}
+
+@media print {
+  .toplink {
+    display: none;
+  }
+
+  /* avoid overwriting the top border line with the ToC header */
+  #toc {
+    padding-top: 1px;
+  }
+
+  /* Avoid page breaks inside dl and author address entries */
+  .vcard {
+    page-break-inside: avoid;
+  }
+
+}
+/* Tweak the bcp14 keyword presentation */
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+/* Tweak the invisible space above H* in order not to overlay links in text above */
+ h2 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 31px;
+ }
+ h3 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 24px;
+ }
+ h4 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 24px;
+ }
+/* Float artwork pilcrow to the right */
+@media screen {
+  .artwork a.pilcrow {
+    display: block;
+    line-height: 0.7;
+    margin-top: 0.15em;
+  }
+}
+/* Make pilcrows on dd visible */
+@media screen {
+  dd:hover > a.pilcrow {
+    visibility: visible;
+  }
+}
+/* Make the placement of figcaption match that of a table's caption
+   by removing the figure's added bottom margin */
+.alignLeft.art-text,
+.alignCenter.art-text,
+.alignRight.art-text {
+   margin-bottom: 0;
+}
+.alignLeft,
+.alignCenter,
+.alignRight {
+  margin: 1em 0 0 0;
+}
+/* In print, the pilcrow won't show on hover, so prevent it from taking up space,
+   possibly even requiring a new line */
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+/* Styling for the external metadata */
+div#external-metadata {
+  background-color: #eee;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  display: none;
+}
+div#internal-metadata {
+  padding: 0.5em;                       /* to match the external-metadata padding */
+}
+/* Styling for title RFC Number */
+h1#rfcnum {
+  clear: both;
+  margin: 0 0 -1em;
+  padding: 1em 0 0 0;
+}
+/* Make .olPercent look the same as <ol><li> */
+dl.olPercent > dd {
+  margin-bottom: 0.25em;
+  min-height: initial;
+}
+/* Give aside some styling to set it apart */
+aside {
+  border-left: 1px solid #ddd;
+  margin: 1em 0 1em 2em;
+  padding: 0.2em 2em;
+}
+aside > dl,
+aside > ol,
+aside > ul,
+aside > table,
+aside > p {
+  margin-bottom: 0.5em;
+}
+/* Additional page break settings */
+@media print {
+  figcaption, table caption {
+    page-break-before: avoid;
+  }
+}
+/* Font size adjustments for print */
+@media print {
+  body  { font-size: 10pt;      line-height: normal; max-width: 96%; }
+  h1    { font-size: 1.72em;    padding-top: 1.5em; } /* 1*1.2*1.2*1.2 */
+  h2    { font-size: 1.44em;    padding-top: 1.5em; } /* 1*1.2*1.2 */
+  h3    { font-size: 1.2em;     padding-top: 1.5em; } /* 1*1.2 */
+  h4    { font-size: 1em;       padding-top: 1.5em; }
+  h5, h6 { font-size: 1em;      margin: initial; padding: 0.5em 0 0.3em; }
+}
+/* Sourcecode margin in print, when there's no pilcrow */
+@media print {
+  .artwork,
+  .artwork > pre,
+  .sourcecode {
+    margin-bottom: 1em;
+  }
+}
+/* Avoid narrow tables forcing too narrow table captions, which may render badly */
+table {
+  min-width: 20em;
+}
+/* ol type a */
+ol.type-a { list-style-type: lower-alpha; }
+ol.type-A { list-style-type: upper-alpha; }
+ol.type-i { list-style-type: lower-roman; }
+ol.type-I { list-style-type: upper-roman; }
+/* Apply the print table and row borders in general, on request from the RPC,
+and increase the contrast between border and odd row background slightly */
+table {
+  border: 1px solid #ddd;
+}
+td {
+  border-top: 1px solid #ddd;
+}
+tr {
+  break-inside: avoid;
+}
+tr:nth-child(2n+1) > td {
+  background-color: #f8f8f8;
+}
+/* Use style rules to govern display of the TOC. */
+@media screen and (max-width: 1023px) {
+  #toc nav { display: none; }
+  #toc.active nav { display: block; }
+}
+/* Add support for keepWithNext */
+.keepWithNext {
+  break-after: avoid-page;
+  break-after: avoid-page;
+}
+/* Add support for keepWithPrevious */
+.keepWithPrevious {
+  break-before: avoid-page;
+}
+/* Change the approach to avoiding breaks inside artwork etc. */
+figure, pre, table, .artwork, .sourcecode  {
+  break-before: auto;
+  break-after: auto;
+}
+/* Avoid breaks between <dt> and <dd> */
+dl {
+  break-before: auto;
+  break-inside: auto;
+}
+dt {
+  break-before: auto;
+  break-after: avoid-page;
+}
+dd {
+  break-before: avoid-page;
+  break-after: auto;
+  orphans: 3;
+  widows: 3
+}
+span.break, dd.break {
+  margin-bottom: 0;
+  min-height: 0;
+  break-before: auto;
+  break-inside: auto;
+  break-after: auto;
+}
+/* Undo break-before ToC */
+@media print {
+  #toc {
+    break-before: auto;
+  }
+}
+/* Text in compact lists should not get extra bottom margin space,
+   since that would makes the list not compact */
+ul.compact p, .ulCompact p,
+ol.compact p, .olCompact p {
+ margin: 0;
+}
+/* But the list as a whole needs the extra space at the end */
+section ul.compact,
+section .ulCompact,
+section ol.compact,
+section .olCompact {
+  margin-bottom: 1em;                    /* same as p not within ul.compact etc. */
+}
+/* The tt and code background above interferes with for instance table cell
+   backgrounds.  Changed to something a bit more selective. */
+tt, code {
+  background-color: transparent;
+}
+p tt, p code, li tt, li code, dt tt, dt code {
+  background-color: #f8f8f8;
+}
+/* Tweak the pre margin -- 0px doesn't come out well */
+pre {
+   margin-top: 0.5px;
+}
+/* Tweak the compact list text */
+ul.compact, .ulCompact,
+ol.compact, .olCompact,
+dl.compact, .dlCompact {
+  line-height: normal;
+}
+/* Don't add top margin for nested lists */
+li > ul, li > ol, li > dl,
+dd > ul, dd > ol, dd > dl,
+dl > dd > dl {
+  margin-top: initial;
+}
+/* Elements that should not be rendered on the same line as a <dt> */
+/* This should match the element list in writer.text.TextWriter.render_dl() */
+dd > div.artwork:first-child,
+dd > aside:first-child,
+dd > blockquote:first-child,
+dd > figure:first-child,
+dd > ol:first-child,
+dd > div.sourcecode:first-child,
+dd > table:first-child,
+dd > ul:first-child {
+  clear: left;
+}
+/* fix for weird browser behaviour when <dd/> is empty */
+dt+dd:empty::before{
+  content: "\00a0";
+}
+/* Make paragraph spacing inside <li> smaller than in body text, to fit better within the list */
+li > p {
+  margin-bottom: 0.5em
+}
+/* Don't let p margin spill out from inside list items */
+li > p:last-of-type:only-child {
+  margin-bottom: 0;
+}
+</style>
+<link href="rfc-local.css" rel="stylesheet" type="text/css">
+<link href="https://dx.doi.org/10.17487/rfc0" rel="alternate">
+  <link href="urn:issn:2070-1721" rel="alternate">
+  <link href="https://datatracker.ietf.org/doc/draft-ietf-intarea-proxy-config-latest" rel="prev">
+  </head>
+<body class="xml2rfc">
+<script src="https://www.rfc-editor.org/js/metadata.min.js"></script>
+<table class="ears">
+<thead><tr>
+<td class="left">RFC 0</td>
+<td class="center">Proxy Configuration PvDs</td>
+<td class="right">May 2026</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Pauly, et al.</td>
+<td class="center">Standards Track</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-stream">Stream:</dt>
+<dd class="stream">Internet Engineering Task Force (IETF)</dd>
+<dt class="label-rfc">RFC:</dt>
+<dd class="rfc"><a href="https://www.rfc-editor.org/rfc/rfc0" class="eref">0</a></dd>
+<dt class="label-category">Category:</dt>
+<dd class="category">Standards Track</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2026-05" class="published">May 2026</time>
+    </dd>
+<dt class="label-issn">ISSN:</dt>
+<dd class="issn">2070-1721</dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">T. Pauly</div>
+<div class="org">Apple, Inc.</div>
+</div>
+<div class="author">
+      <div class="author-name">D. Damjanovic</div>
+<div class="org">Microsoft</div>
+</div>
+<div class="author">
+      <div class="author-name">Y. Rosomakho</div>
+<div class="org">Zscaler</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="rfcnum">RFC 0</h1>
+<h1 id="title">Communicating Proxy Configurations in Provisioning Domains</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">This document defines a mechanism for accessing provisioning domain information
+associated with a proxy, such as other proxy URIs that support different protocols
+and information about which destinations are accessible using a proxy.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+            This is an Internet Standards Track document.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+            This document is a product of the Internet Engineering Task Force
+            (IETF).  It represents the consensus of the IETF community.  It has
+            received public review and has been approved for publication by
+            the Internet Engineering Steering Group (IESG).  Further
+            information on Internet Standards is available in Section 2 of 
+            RFC 7841.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+            Information about the current status of this document, any
+            errata, and how to provide feedback on it may be obtained at
+            <span><a href="https://www.rfc-editor.org/info/rfc0">https://www.rfc-editor.org/info/rfc0</a></span>.<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2026 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-background" class="internal xref">Background</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
+                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="auto internal xref">1.2</a>.  <a href="#name-requirements-keywords" class="internal xref">Requirements Keywords</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.3">
+                <p id="section-toc.1-1.1.2.3.1" class="keepWithNext"><a href="#section-1.3" class="auto internal xref">1.3</a>.  <a href="#name-note-to-the-rfc-editor" class="internal xref">Note to the RFC Editor</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-fetching-pvd-additional-inf" class="internal xref">Fetching PvD Additional Information for proxies</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
+                <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-discovery-via-https-svcb-re" class="internal xref">Discovery via HTTPS/SVCB Records</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-enumerating-proxies-within-" class="internal xref">Enumerating proxies within a PvD</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-proxy-dictionary-keys" class="internal xref">Proxy dictionary keys</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-proprietary-keys-in-proxy-c" class="internal xref">Proprietary keys in proxy configurations</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-example" class="internal xref">Example</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-destination-accessibility-i" class="internal xref">Destination accessibility information for proxies</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-destination-rule-keys" class="internal xref">Destination Rule Keys</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-using-destination-rules" class="internal xref">Using Destination Rules</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-proprietary-keys-in-destina" class="internal xref">Proprietary Keys in Destination Rules</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4">
+                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="auto internal xref">4.4</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-discovering-proxies-from-ne" class="internal xref">Discovering proxies from network PvDs</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-new-pvd-additional-informat" class="internal xref">New PvD Additional Information key</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.1">
+                    <p id="section-toc.1-1.7.2.1.2.1.1"><a href="#section-7.1.1" class="auto internal xref">7.1.1</a>.  <a href="#name-proxies-key" class="internal xref"><code>proxies</code> Key</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.2">
+                    <p id="section-toc.1-1.7.2.1.2.2.1"><a href="#section-7.1.2" class="auto internal xref">7.1.2</a>.  <a href="#name-proxy-match-key" class="internal xref"><code>proxy-match</code> Key</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-new-pvd-proxy-information-r" class="internal xref">New PvD Proxy Information Registry</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3">
+                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-new-pvd-proxy-protocol-regi" class="internal xref">New PvD Proxy Protocol Registry</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.4">
+                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-new-pvd-proxy-destination-r" class="internal xref">New PvD Proxy Destination Rule Registry</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.5">
+                <p id="section-toc.1-1.7.2.5.1"><a href="#section-7.5" class="auto internal xref">7.5</a>.  <a href="#name-new-dns-svcb-service-parame" class="internal xref">New DNS SVCB Service Parameter Key (SvcParamKey)</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
+                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">HTTP proxies that use the CONNECT method defined in <span><a href="https://www.rfc-editor.org/rfc/rfc9110#section-9.3.6" class="relref">Section 9.3.6</a> of [<a href="#RFC9110" class="cite xref">HTTP</a>]</span>
+(often referred to as "forward" proxies) allow clients to open connections to
+hosts via a proxy. These typically allow for TCP stream proxying, but can also support
+UDP proxying <span>[<a href="#RFC9298" class="cite xref">CONNECT-UDP</a>]</span> and IP packet proxying
+<span>[<a href="#RFC9484" class="cite xref">CONNECT-IP</a>]</span>. The locations of these proxies are not just defined as
+hostnames and ports, but can use URI templates <span>[<a href="#RFC6570" class="cite xref">URITEMPLATE</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">In order to make use of multiple related proxies, clients need a way to understand
+which proxies are associated with one another, and which protocols can be used
+to communicate with the proxies.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">Clients can also benefit from learning about additional information associated with
+the proxy to optimize their proxy usage, such knowing that a proxy is configured
+to only allow access to a limited set of destinations.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">These improvements to client behavior can be achieved through the use of
+Provisioning Domains. Provisioning Domains (PvDs) are defined in <span>[<a href="#RFC7556" class="cite xref">PVD</a>]</span>
+as consistent sets of network configuration information, which can include proxy
+configuration details (<span><a href="https://www.rfc-editor.org/rfc/rfc7556#section-2" class="relref">Section 2</a> of [<a href="#RFC7556" class="cite xref">PVD</a>]</span>). <span><a href="https://www.rfc-editor.org/rfc/rfc8801#section-4.3" class="relref">Section 4.3</a> of [<a href="#RFC8801" class="cite xref">PVDDATA</a>]</span> defines a JSON
+<span>[<a href="#RFC8259" class="cite xref">JSON</a>]</span> format for describing Provisioning Domain Additional Information,
+which is an extensible dictionary of properties of the Provisioning Domain.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">This document defines several mechanisms to use PvDs to help clients understand how
+to use proxies:<a href="#section-1-5" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-1-6">
+<li id="section-1-6.1">
+          <p id="section-1-6.1.1">A way to fetch PvD Additional Information associated with a known proxy URI (<a href="#proxy-pvd" class="auto internal xref">Section 2</a>)<a href="#section-1-6.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-1-6.2">
+          <p id="section-1-6.2.1">A way to list one or more proxy URIs in a PvD, allowing clients to
+learn about other proxy options given a known proxy (<a href="#proxy-enumeration" class="auto internal xref">Section 3</a>).<a href="#section-1-6.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-1-6.3">
+          <p id="section-1-6.3.1">A way to define the set of destinations that are accessible through the
+proxy (<a href="#destinations" class="auto internal xref">Section 4</a>).<a href="#section-1-6.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ol>
+<p id="section-1-7">Using this mechanism a client can learn that a legacy insecure HTTP proxy that
+the client is configured with is also accessible using HTTPS. In this way,
+clients can upgrade to a more secure connection to the proxy.<a href="#section-1-7" class="pilcrow">¶</a></p>
+<div id="background">
+<section id="section-1.1">
+        <h3 id="name-background">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-background" class="section-name selfRef">Background</a>
+        </h3>
+<p id="section-1.1-1">Non-standard mechanisms for proxy configuration and discovery have been
+used historically, some of which are described in the informational <span>[<a href="#RFC3040" class="cite xref">RFC3040</a>]</span>:
+Proxy Auto Configuration (PAC) files <span><a href="https://www.rfc-editor.org/rfc/rfc3040#section-6.2" class="relref">Section 6.2</a> of [<a href="#RFC3040" class="cite xref">RFC3040</a>]</span> are JavaScript
+scripts that take URLs as input and provide an output of a proxy configuration
+to use. Web Proxy Auto-Discovery Protocol (WPAD) <span><a href="https://www.rfc-editor.org/rfc/rfc3040#section-6.4" class="relref">Section 6.4</a> of [<a href="#RFC3040" class="cite xref">RFC3040</a>]</span> allows
+networks to advertise proxies to use by advertising a PAC file. This solution
+uses the DHCPv4 option 252, reserved for private use according to
+<span><a href="https://www.rfc-editor.org/rfc/rfc2939#section-2.1" class="relref">Section 2.1</a> of [<a href="#RFC2939" class="cite xref">IANA-DHCP</a>]</span>. These common (but non-standard) mechanisms
+only support defining proxies by hostname and port, and do not support configuring
+a full URI template <span>[<a href="#RFC6570" class="cite xref">URITEMPLATE</a>]</span>.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1-2">The mechanisms defined in this document are intended to offer a standard
+alternative that works for URI-based proxies and avoids dependencies
+on executing JavaScript scripts, which are prone to implementation inconsistencies
+and security vulnerabilities.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="requirements-keywords">
+<section id="section-1.2">
+        <h3 id="name-requirements-keywords">
+<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-requirements-keywords" class="section-name selfRef">Requirements Keywords</a>
+        </h3>
+<p id="section-1.2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="note-to-the-rfc-editor">
+<section id="section-1.3">
+        <h3 id="name-note-to-the-rfc-editor">
+<a href="#section-1.3" class="section-number selfRef">1.3. </a><a href="#name-note-to-the-rfc-editor" class="section-name selfRef">Note to the RFC Editor</a>
+        </h3>
+<p id="section-1.3-1">RFC EDITOR: Please remove this section before publication.<a href="#section-1.3-1" class="pilcrow">¶</a></p>
+<p id="section-1.3-2">Various identifier words are used in this draft using the <code>code</code> markdown
+and are easily noted in the HTML rendering of this draft. The authors kindly
+request that the RFC editor makes these instances noticeable via appropriate
+markings in the <code>TXT</code> and <code>PDF</code> renderings of this draft.  The term include,
+but may not be limited to the following:
+<code>proxies</code> <code>protocol</code> <code>proxy</code> <code>mandatory</code> <code>alpn</code> <code>identifier</code><a href="#section-1.3-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="proxy-pvd">
+<section id="section-2">
+      <h2 id="name-fetching-pvd-additional-inf">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-fetching-pvd-additional-inf" class="section-name selfRef">Fetching PvD Additional Information for proxies</a>
+      </h2>
+<p id="section-2-1">This document defines a way to fetch PvD Additional Information associated with
+a proxy. This PvD describes the properties of the network accessible through the proxy.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">Clients fetch PvD Additional Information associated with a proxy by issuing
+an HTTP GET request for a PvD URI using the "application/pvd+json" media
+type as defined in <span><a href="https://www.rfc-editor.org/rfc/rfc8801#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8801" class="cite xref">PVDDATA</a>]</span>. The fetch <span class="bcp14">MUST</span> use the "https" scheme.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<p id="section-2-3"><span>[<a href="#RFC8801" class="cite xref">PVDDATA</a>]</span> defines the well-known PvD URI, that uses a path of "/.well-known/pvd" and is
+served on the standard port for HTTP over TLS (HTTPS), port 443. When a client is provisioned
+with the hostname of a proxy for
+which it wants to look up PvD Additional Information, the client <span class="bcp14">SHALL</span> use the
+well-known PvD URI using the host authority of the proxy. A client can also be directly
+configured with a HTTPS URI on which to fetch the PvD Information, in which case the
+fetch <span class="bcp14">SHALL</span> be made to that configured URI.<a href="#section-2-3" class="pilcrow">¶</a></p>
+<p id="section-2-4">A client <span class="bcp14">MAY</span> cache the information it obtained from PvD Additional Information, but it
+<span class="bcp14">MUST</span> discard cached information if:<a href="#section-2-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2-5.1">
+          <p id="section-2-5.1.1">The current time is beyond the "expires" value defined in <span><a href="https://www.rfc-editor.org/rfc/rfc8801#section-4.3" class="relref">Section 4.3</a> of [<a href="#RFC8801" class="cite xref">PVDDATA</a>]</span><a href="#section-2-5.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-2-5.2">
+          <p id="section-2-5.2.1">A new Sequence Number for that PvD is received in a Router Advertisement (RA)<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-2-6">To avoid synchronized queries toward the server hosting the PvD Additional Information
+when an object expires, clients <span class="bcp14">MUST</span> apply a randomized backoff as specified in <span><a href="https://www.rfc-editor.org/rfc/rfc8801#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8801" class="cite xref">PVDDATA</a>]</span>.<a href="#section-2-6" class="pilcrow">¶</a></p>
+<p id="section-2-7">For example, a client would issue the following request for the PvD associated
+with "https://proxy.example.org/masque{?target_host,target_port}":<a href="#section-2-7" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2-8">
+<pre>
+:method = GET
+:scheme = https
+:authority = proxy.example.org
+:path = /.well-known/pvd
+accept = application/pvd+json
+</pre><a href="#section-2-8" class="pilcrow">¶</a>
+</div>
+<p id="section-2-9">A client would send the same request as above for the PvD
+associated with an HTTP CONNECT proxy on "proxy.example.org:8080".
+Note that the client will not make the GET request for the PvD to port 8080, but
+to port 443.<a href="#section-2-9" class="pilcrow">¶</a></p>
+<p id="section-2-10">Note that all proxies that are co-located on the same host share the same PvD
+Additional Information. Proxy deployments that need separate PvD configuration properties
+<span class="bcp14">MUST</span> use different hosts.<a href="#section-2-10" class="pilcrow">¶</a></p>
+<p id="section-2-11">PvD Additional Information is required to contain the "identifier", "expires", and
+"prefixes" keys. For proxy PvDs as defined in this document, the "identifier" <span class="bcp14">MUST</span>
+match the hostname of the HTTP proxy. The "prefixes" array <span class="bcp14">MUST</span> be empty for cases when the PvD identifier is not provided by a Router Advertisement as defined in <span>[<a href="#RFC8801" class="cite xref">PVDDATA</a>]</span>.<a href="#section-2-11" class="pilcrow">¶</a></p>
+<div id="svcparamkey">
+<section id="section-2.1">
+        <h3 id="name-discovery-via-https-svcb-re">
+<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-discovery-via-https-svcb-re" class="section-name selfRef">Discovery via HTTPS/SVCB Records</a>
+        </h3>
+<p id="section-2.1-1">To allow clients to determine whether PvD Additional Information is available for a particular
+named host (which allows fetching proxy information, as well as any other information in the PvD),
+this document defines a new SvcParamKey in HTTPS and SVCB DNS records defined in <span>[<a href="#RFC9460" class="cite xref">SVCB-DNS</a>]</span>.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.1-2">Presence of this SvcParamKey, named <code>pvd</code>, indicates that the host supports PvD discovery via
+the well-known PvD URI defined in <span><a href="https://www.rfc-editor.org/rfc/rfc8801#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8801" class="cite xref">PVDDATA</a>]</span>. The presence of this key in an HTTPS
+or SVCB record signals that PvD Additional Information can be fetched using the "https"
+scheme from the host on port 443 using the well-known path. The value of the <code>pvd</code> SvcParamKey
+<span class="bcp14">MUST</span> be empty.<a href="#section-2.1-2" class="pilcrow">¶</a></p>
+<p id="section-2.1-3">A client receiving a DNS record like the following:<a href="#section-2.1-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1-4">
+<pre>
+proxy.example.org. 3600 IN HTTPS 1 . alpn="h3,h2" pvd
+</pre><a href="#section-2.1-4" class="pilcrow">¶</a>
+</div>
+<p id="section-2.1-5">can interpret the presence of the <code>pvd</code> key as an indication that it <span class="bcp14">MAY</span> perform a PvD fetch from
+"https://proxy.example.org/.well-known/pvd" using HTTP GET method.<a href="#section-2.1-5" class="pilcrow">¶</a></p>
+<p id="section-2.1-6">This key is useful for detecting proxy configurations when looking up a DNS
+record for a known proxy name, but is a generic hint that PvD Additional Information
+is available. Future extensions to PvD Additional Information can also take advantage
+of this discovery mechanism.<a href="#section-2.1-6" class="pilcrow">¶</a></p>
+<p id="section-2.1-7">This hint is advisory; clients <span class="bcp14">MAY</span> still attempt to fetch PvD Additional Information even if
+<code>pvd</code> SvcParamKey is not present.<a href="#section-2.1-7" class="pilcrow">¶</a></p>
+<p id="section-2.1-8">The <code>pvd</code> SvcParamKey is registered with IANA as described in <a href="#svcparamkey-iana" class="auto internal xref">Section 7.5</a>.<a href="#section-2.1-8" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="proxy-enumeration">
+<section id="section-3">
+      <h2 id="name-enumerating-proxies-within-">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-enumerating-proxies-within-" class="section-name selfRef">Enumerating proxies within a PvD</a>
+      </h2>
+<p id="section-3-1">This document defines a new PvD Additional Information key, <code>proxies</code>, that
+is an array of dictionaries, where each dictionary in the array defines
+a single proxy that is available as part of the PvD (see <a href="#proxies-key-iana" class="auto internal xref">Section 7.1</a>).
+Each proxy is defined by a proxy protocol and a proxy location (i.e., a hostname and port or a URI template
+<span>[<a href="#RFC6570" class="cite xref">URITEMPLATE</a>]</span>), along with other optional keys.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">When a PvD that contains the <code>proxies</code> key is fetched from a known proxy
+using the method described in <a href="#proxy-pvd" class="auto internal xref">Section 2</a>, the proxies array describes
+proxies that can be used in addition to the known proxy. The proxies may
+potentially supporting other protocols.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">Such cases are useful for informing clients of related proxies as a discovery
+method, with the assumption that the client already is aware of one proxy.
+Many historical methods of configuring a proxy only allow configuring
+a single hostname and port for the proxy. A client can attempt to fetch the
+PvD information from the well-known URI to learn the list of complete
+URIs that support non-default protocols, such as <span>[<a href="#RFC9298" class="cite xref">CONNECT-UDP</a>]</span> and
+<span>[<a href="#RFC9484" class="cite xref">CONNECT-IP</a>]</span>.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<div id="proxy-dictionary-keys">
+<section id="section-3.1">
+        <h3 id="name-proxy-dictionary-keys">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-proxy-dictionary-keys" class="section-name selfRef">Proxy dictionary keys</a>
+        </h3>
+<p id="section-3.1-1">This document defines two required keys for the sub-dictionaries in the
+<code>proxies</code> array: <code>protocol</code> and <code>proxy</code>. There are also optional keys, including
+<code>mandatory</code>, <code>alpn</code>, and <code>identifier</code>. Other optional keys (keys defined in
+future extensions or proprietary key defined in <a href="#proxy-proprietary-keys" class="auto internal xref">Section 3.2</a>) can be added to the
+dictionary to further define or restrict the use of a proxy. The keys
+are registered with IANA as described in <a href="#proxy-info-iana" class="auto internal xref">Section 7.2</a>, with the initial
+content provided below.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<span id="name-initial-proxy-information-p"></span><div id="proxy-information-keys-table">
+<table class="center" id="table-1">
+          <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
+<a href="#name-initial-proxy-information-p" class="selfRef">Initial Proxy Information PvD Keys Registry Contents</a>
+          </caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">JSON Key</th>
+              <th class="text-left" rowspan="1" colspan="1">Optional/ Required</th>
+              <th class="text-left" rowspan="1" colspan="1">Description</th>
+              <th class="text-left" rowspan="1" colspan="1">Type</th>
+              <th class="text-left" rowspan="1" colspan="1">Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">protocol</td>
+              <td class="text-left" rowspan="1" colspan="1">required</td>
+              <td class="text-left" rowspan="1" colspan="1">The protocol used to communicate with the proxy</td>
+              <td class="text-left" rowspan="1" colspan="1">String</td>
+              <td class="text-left" rowspan="1" colspan="1">"connect-udp"</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">proxy</td>
+              <td class="text-left" rowspan="1" colspan="1">required</td>
+              <td class="text-left" rowspan="1" colspan="1">String containing the URI template or host and port of the proxy, depending on the format defined by the protocol</td>
+              <td class="text-left" rowspan="1" colspan="1">String</td>
+              <td class="text-left" rowspan="1" colspan="1">"https://example.org:4443/masque/<br>{?target_host,target_port}"</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">mandatory</td>
+              <td class="text-left" rowspan="1" colspan="1">optional</td>
+              <td class="text-left" rowspan="1" colspan="1">An array of optional keys that client must understand and process to use this proxy</td>
+              <td class="text-left" rowspan="1" colspan="1">Array of Strings</td>
+              <td class="text-left" rowspan="1" colspan="1">["example_key"]</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">alpn</td>
+              <td class="text-left" rowspan="1" colspan="1">optional</td>
+              <td class="text-left" rowspan="1" colspan="1">An array of Application-Layer Protocol Negotiation protocol identifiers</td>
+              <td class="text-left" rowspan="1" colspan="1">Array of Strings</td>
+              <td class="text-left" rowspan="1" colspan="1">["h3","h2"]</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">identifier</td>
+              <td class="text-left" rowspan="1" colspan="1">optional</td>
+              <td class="text-left" rowspan="1" colspan="1">A string used to refer to the proxy, which can be referenced by other dictionaries, such as entries in <code>proxy-match</code>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">String</td>
+              <td class="text-left" rowspan="1" colspan="1">"udp-proxy"</td>
+            </tr>
+          </tbody>
+        </table>
+</div>
+<p id="section-3.1-3">The values for the <code>protocol</code> key are defined in the proxy protocol
+registry (<a href="#proxy-protocol-iana" class="auto internal xref">Section 7.3</a>), with the initial contents provided below.
+For consistency, any new proxy types that use HTTP Upgrade Tokens (and use
+the <code>:protocol</code> pseudo-header) <span class="bcp14">MUST</span> define the <code>protocol</code> value to match
+the Upgrade Token / <code>:protocol</code> value. Extensions to proxy types that use
+the same HTTP Upgrade Tokens ought to be covered by the same <code>protocol</code> value;
+if there are properties specific to an extension, the extensions can either
+define new optional keys or rely on negotiation within the protocol to discover
+support.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+<span id="name-initial-pvd-proxy-protocol-"></span><div id="proxy-protocol-value-table">
+<table class="center" id="table-2">
+          <caption>
+<a href="#table-2" class="selfRef">Table 2</a>:
+<a href="#name-initial-pvd-proxy-protocol-" class="selfRef">Initial PvD Proxy Protocol Registry Contents</a>
+          </caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Proxy Protocol</th>
+              <th class="text-left" rowspan="1" colspan="1">Proxy Location Format</th>
+              <th class="text-left" rowspan="1" colspan="1">Reference</th>
+              <th class="text-left" rowspan="1" colspan="1">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">socks5</td>
+              <td class="text-left" rowspan="1" colspan="1">host:port</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span>[<a href="#RFC1928" class="cite xref">SOCKSv5</a>]</span>
+</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">http-connect</td>
+              <td class="text-left" rowspan="1" colspan="1">host:port</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span><a href="https://www.rfc-editor.org/rfc/rfc9110#section-9.3.6" class="relref">Section 9.3.6</a> of [<a href="#RFC9110" class="cite xref">HTTP</a>]</span>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">Standard CONNECT method, using unencrypted HTTP to the proxy</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">https-connect</td>
+              <td class="text-left" rowspan="1" colspan="1">host:port</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span><a href="https://www.rfc-editor.org/rfc/rfc9110#section-9.3.6" class="relref">Section 9.3.6</a> of [<a href="#RFC9110" class="cite xref">HTTP</a>]</span>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">Standard CONNECT method, using TLS-protected HTTP to the proxy</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">connect-udp</td>
+              <td class="text-left" rowspan="1" colspan="1">URI template</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span>[<a href="#RFC9298" class="cite xref">CONNECT-UDP</a>]</span>
+</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">connect-ip</td>
+              <td class="text-left" rowspan="1" colspan="1">URI template</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span>[<a href="#RFC9484" class="cite xref">CONNECT-IP</a>]</span>
+</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">connect-tcp</td>
+              <td class="text-left" rowspan="1" colspan="1">URI template</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <span>[<a href="#I-D.ietf-httpbis-connect-tcp" class="cite xref">CONNECT-TCP</a>]</span>
+</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+            </tr>
+          </tbody>
+        </table>
+</div>
+<p id="section-3.1-5">The value of <code>proxy</code> depends on the Proxy Location Format defined by proxy protocol.
+The types defined here either use a host as defined in <span><a href="https://www.rfc-editor.org/rfc/rfc3986#section-3.2.2" class="relref">Section 3.2.2</a> of [<a href="#RFC3986" class="cite xref">URI</a>]</span> and port,
+or a full URI template.<a href="#section-3.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.1-6">The value of the <code>mandatory</code> key is an array of keys that the client must understand and process to be
+able to use the proxy. A client that does not understand a key from the array or cannot fully process
+the value of a key from the array <span class="bcp14">MUST</span> ignore the entire proxy dictionary.<a href="#section-3.1-6" class="pilcrow">¶</a></p>
+<p id="section-3.1-7">The <code>mandatory</code> array can contain keys that are either:<a href="#section-3.1-7" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.1-8.1">
+            <p id="section-3.1-8.1.1">registered in an IANA registry, defined in <a href="#proxy-info-iana" class="auto internal xref">Section 7.2</a> and marked as optional,<a href="#section-3.1-8.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.1-8.2">
+            <p id="section-3.1-8.2.1">or proprietary, as defined in <a href="#proxy-proprietary-keys" class="auto internal xref">Section 3.2</a><a href="#section-3.1-8.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-3.1-9">The <code>mandatory</code> array <span class="bcp14">MUST NOT</span> include any entries that are not present in the sub-dictionary.<a href="#section-3.1-9" class="pilcrow">¶</a></p>
+<p id="section-3.1-10">If the <code>alpn</code> key is present, it provides a hint for the Application-Layer Protocol Negotiation
+(ALPN) <span>[<a href="#RFC7301" class="cite xref">ALPN</a>]</span> protocol identifiers associated with this server. For HTTP proxies,
+this can indicate if the proxy supports HTTP/3, HTTP/2, etc.<a href="#section-3.1-10" class="pilcrow">¶</a></p>
+<p id="section-3.1-11">The value of the <code>identifier</code> key is a string that can be used to refer to a particular
+proxy from other dictionaries, specifically those defined in <a href="#destinations" class="auto internal xref">Section 4</a>. The
+string value is an arbitrary non-empty JSON string using UTF-8 encoding
+as discussed in <span><a href="https://www.rfc-editor.org/rfc/rfc8259#section-8.1" class="relref">Section 8.1</a> of [<a href="#RFC8259" class="cite xref">JSON</a>]</span>. Characters that need to be escaped in JSON strings
+per <span><a href="https://www.rfc-editor.org/rfc/rfc8259#section-7" class="relref">Section 7</a> of [<a href="#RFC8259" class="cite xref">JSON</a>]</span> are <span class="bcp14">NOT RECOMMENDED</span> as they can lead to difficulties in
+string comparisons as discussed in <span><a href="https://www.rfc-editor.org/rfc/rfc8259#section-8.3" class="relref">Section 8.3</a> of [<a href="#RFC8259" class="cite xref">JSON</a>]</span>. Identifier values <span class="bcp14">MAY</span> be duplicated
+across different proxy dictionaries in the <code>proxies</code> array. References to a particular identifier
+apply to the set of proxies sharing that identifier. Proxies without the <code>identifier</code> key are
+expected to accept any traffic since their destinations cannot be contained in <code>proxy-match</code> array defined
+in <a href="#destinations" class="auto internal xref">Section 4</a>. Proxies with <code>identifier</code> keys are expected to accept traffic based on
+matching rules in the <code>proxy-match</code> array and <span class="bcp14">MUST NOT</span> be used if they are not included in
+the <code>proxy-match</code> array.<a href="#section-3.1-11" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="proxy-proprietary-keys">
+<section id="section-3.2">
+        <h3 id="name-proprietary-keys-in-proxy-c">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-proprietary-keys-in-proxy-c" class="section-name selfRef">Proprietary keys in proxy configurations</a>
+        </h3>
+<p id="section-3.2-1">Implementations <span class="bcp14">MAY</span> include proprietary or vendor-specific keys in the sub-dictionaries of the <code>proxies</code>
+array to convey additional proxy configuration information not defined in this specification.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">A proprietary key <span class="bcp14">MUST</span> contain at least one underscore character ("_") as a delimiter in the string, with
+characters both before and after the underscore. The right-most underscore serves
+as a separator between a vendor-specific namespace and the key name; i.e., the string to the right of the
+right-most underscore is the key name and the string to the left of the right-most underscore specifies the
+vendor-specific namespace. For example, "example_tech_authmode" could be a proprietary key indicating an
+authentication mode defined by a vendor named "Example Tech".<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.2-3">When combined with <code>mandatory</code> array, this mechanism allows implementations to extend proxy metadata while
+maintaining interoperability and ensuring safe fallback behavior for clients that do not support a given
+extension.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="example">
+<section id="section-3.3">
+        <h3 id="name-example">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-example" class="section-name selfRef">Example</a>
+        </h3>
+<p id="section-3.3-1">Given a known HTTP CONNECT proxy FQDN, "proxy.example.org", a client could
+request PvD Additional Information with the following request:<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.3-2">
+<pre>
+:method = GET
+:scheme = https
+:authority = proxy.example.org
+:path = /.well-known/pvd
+accept = application/pvd+json
+</pre><a href="#section-3.3-2" class="pilcrow">¶</a>
+</div>
+<p id="section-3.3-3">If the proxy has a PvD definition for this FQDN, it would return the following
+response to indicate a PvD that has two related proxy URIs.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.3-4">
+<pre>
+:status = 200
+content-type = application/pvd+json
+content-length = 322
+
+{
+  "identifier": "proxy.example.org.",
+  "expires": "2026-06-23T06:00:00Z",
+  "prefixes": [],
+  "proxies": [
+    {
+      "protocol": "http-connect",
+      "proxy": "proxy.example.org:80"
+    },
+    {
+      "protocol": "connect-udp",
+      "proxy": "https://proxy.example.org/masque{?target_host,target_port}"
+    }
+  ]
+}
+</pre><a href="#section-3.3-4" class="pilcrow">¶</a>
+</div>
+<p id="section-3.3-5">From this response, the client would learn the URI template of the proxy that supports UDP using <span>[<a href="#RFC9298" class="cite xref">CONNECT-UDP</a>]</span>,
+at "https://proxy.example.org/masque{?target_host,target_port}".<a href="#section-3.3-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="destinations">
+<section id="section-4">
+      <h2 id="name-destination-accessibility-i">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-destination-accessibility-i" class="section-name selfRef">Destination accessibility information for proxies</a>
+      </h2>
+<p id="section-4-1">Destination accessibility information is used when only a subset of destinations is reachable through
+a proxy. Destination restrictions are often used in VPN tunnel configurations such as split
+DNS in IKEv2 <span>[<a href="#RFC8598" class="cite xref">IKEV2SPLIT</a>]</span>, and in other proxy configuration mechanisms like PAC files (see <a href="#background" class="auto internal xref">Section 1.1</a>).<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-2">PvD Additional Information can be used to indicate that a set of proxies only allows access to
+a limited set of destinations.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<p id="section-4-3">To support determining which traffic is supported by different proxies, this document defines
+a new PvD Additional Information key <code>proxy-match</code>. This key has a value that is an array of
+dictionaries, where each subdictionary describes a rule for matching traffic to one or more
+proxies, or excluding the traffic from all proxies described in the PvD. These subdictionaries are referred
+to as "destination rules", since they define rules about which destinations can be accessed
+for a particular proxy or set of proxies.<a href="#section-4-3" class="pilcrow">¶</a></p>
+<div id="destination-rule-keys">
+<section id="section-4.1">
+        <h3 id="name-destination-rule-keys">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-destination-rule-keys" class="section-name selfRef">Destination Rule Keys</a>
+        </h3>
+<p id="section-4.1-1">This document defines four keys for destination rules. Any destination rule <span class="bcp14">MUST</span> contain
+the <code>proxies</code> key. Values corresponding to the <code>proxies</code> key may be either an empty array,
+which implies that no proxy defined in this PvD can process matching traffic, or an array of strings
+with at least one proxy <code>identifier</code> string. A destination rule <span class="bcp14">MAY</span> contain one or more additional
+keys that describe destination properties. If no destination property keys are present, the
+rule matches all destinations, subject to proxy protocol and proxy applicability checks
+described in <a href="#using-destination-rules" class="auto internal xref">Section 4.2</a>. Each destination property key's value <span class="bcp14">MUST</span> be an
+array with at least one entry.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-2">Extensions or proprietary deployments can define new keys to describe destination properties.
+Any destination rules that include keys not known to the client, or values that cannot be
+parsed, <span class="bcp14">MUST</span> be ignored in their entirety.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.1-3">Destination rule keys are registered with IANA as defined in <a href="#proxy-destination-iana" class="auto internal xref">Section 7.4</a>,
+with the initial content provided below.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+<span id="name-initial-pvd-proxy-destinati"></span><div id="destination-rule-keys-table">
+<table class="center" id="table-3">
+          <caption>
+<a href="#table-3" class="selfRef">Table 3</a>:
+<a href="#name-initial-pvd-proxy-destinati" class="selfRef">Initial PvD Proxy Destination Rule Registry Contents</a>
+          </caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">JSON Key</th>
+              <th class="text-left" rowspan="1" colspan="1">Optional</th>
+              <th class="text-left" rowspan="1" colspan="1">Description</th>
+              <th class="text-left" rowspan="1" colspan="1">Type</th>
+              <th class="text-left" rowspan="1" colspan="1">Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">proxies</td>
+              <td class="text-left" rowspan="1" colspan="1">No</td>
+              <td class="text-left" rowspan="1" colspan="1">An array of strings that match <code>identifier</code> values from the top-level <code>proxies</code> array</td>
+              <td class="text-left" rowspan="1" colspan="1">Array of Strings</td>
+              <td class="text-left" rowspan="1" colspan="1">["tcp-proxy", "udp-proxy"]</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">domains</td>
+              <td class="text-left" rowspan="1" colspan="1">Yes</td>
+              <td class="text-left" rowspan="1" colspan="1">An array of FQDNs and wildcard DNS domains</td>
+              <td class="text-left" rowspan="1" colspan="1">Array of Strings</td>
+              <td class="text-left" rowspan="1" colspan="1">["www.example.com", "*.internal.example.com"]</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">subnets</td>
+              <td class="text-left" rowspan="1" colspan="1">Yes</td>
+              <td class="text-left" rowspan="1" colspan="1">An array of IPv4 and IPv6 addresses and subnets</td>
+              <td class="text-left" rowspan="1" colspan="1">Array of Strings</td>
+              <td class="text-left" rowspan="1" colspan="1">["2001:db8::1", "192.0.2.0/24"]</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">ports</td>
+              <td class="text-left" rowspan="1" colspan="1">Yes</td>
+              <td class="text-left" rowspan="1" colspan="1">An array of TCP and UDP port ranges</td>
+              <td class="text-left" rowspan="1" colspan="1">Array of Strings</td>
+              <td class="text-left" rowspan="1" colspan="1">["80", "443", "1024-65535"]</td>
+            </tr>
+          </tbody>
+        </table>
+</div>
+<p id="section-4.1-5">The <code>domains</code> array includes specific FQDNs and zones that are either accessible using specific proxy (for
+rules with non-empty <code>proxies</code> array) or non-accessible through any proxies (for rules with empty <code>proxies</code> array).
+Wildcards are allowed only as prefixes (<code>*.</code>). A wildcard prefix is used to indicate matching entire domains or subdomains instead of
+specific hostnames. Note that this can be used to match multiple levels of subdomains. For example, "*.example.com"
+matches "internal.example.com" as well as "www.public.example.com".
+Entries that include the wildcard prefix also match an FQDN that only contains
+the string after the prefix, with no subdomain. So, an entry "*.example.com"
+in the <code>domains</code> array of a <code>proxy-match</code> rule would match the FQDN "example.com".
+This is done to prevent commonly needing to include both "*.example.com" and "example.com"
+in the <code>domains</code> array of a <code>proxy-match</code> rule.
+Matches are performed against absolute domain names, independent of the client's configured DNS search suffixes.
+Clients <span class="bcp14">MUST NOT</span> apply local DNS suffix search rules when interpreting <code>domains</code> entries. A
+string <span class="bcp14">MAY</span> have a trailing dot ("."); it does not affect the matching logic.<a href="#section-4.1-5" class="pilcrow">¶</a></p>
+<p id="section-4.1-6">The <code>subnets</code> array includes IPv4 and IPv6 address literals, as well as IPv4 address subnets
+represented using CIDR notation <span>[<a href="#RFC4632" class="cite xref">CIDR</a>]</span> and IPv6 address prefixes <span><a href="https://www.rfc-editor.org/rfc/rfc4291#section-2.3" class="relref">Section 2.3</a> of [<a href="#RFC4291" class="cite xref">IPv6-ADDR</a>]</span>.
+Subnet-based destination information can apply to cases where
+applications are communicating directly with an IP address (without having resolved a DNS name)
+as well as cases where an application resolved a DNS name to a set of IP addresses. Note that
+if destination rules include an empty <code>proxies</code> array (indicating that no proxy is applicable for
+this subnet), an application can only reliably follow this destination rule if it resolves DNS
+names prior to proxying.<a href="#section-4.1-6" class="pilcrow">¶</a></p>
+<p id="section-4.1-7">The <code>ports</code> array includes specific ports (used for matching TCP and/or UDP ports), as well as
+ranges of ports written with a low port value and a high port value, with a <code>-</code> in between.
+For example, "1024-2048" matches all ports from 1024 to 2048, including port 1024 and 2048.
+If <code>ports</code> key is not present, all ports are assumed to match. The array may
+contain individual port numbers (such as "80") or inclusive ranges of ports.<a href="#section-4.1-7" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="using-destination-rules">
+<section id="section-4.2">
+        <h3 id="name-using-destination-rules">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-using-destination-rules" class="section-name selfRef">Using Destination Rules</a>
+        </h3>
+<p id="section-4.2-1">The destination rules can be used to determine which traffic can be sent through proxies, and
+which specific set of proxies to use for any particular connection. By evaluating the rules in
+order, a consistent behavior for usage can be achieved.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">Rules in the <code>proxy-match</code> array are provided in order of priority, such that a client
+can evaluate the rules from the first in the array to the last in the array, and attempt
+using the matching proxy or proxies from the earliest matching rule first. If earliest matching
+rule has empty array of <code>proxies</code>, a client <span class="bcp14">MUST NOT</span> send matching traffic to any proxy defined
+in this PvD.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
+<p id="section-4.2-3">In order to match a destination rule in the <code>proxy-match</code> array, all properties <span class="bcp14">MUST</span> apply. For
+example, if a destination rule includes a <code>domains</code> array and a <code>ports</code> array, traffic that matches
+the rule needs to match at least one of the entries in the <code>domains</code> array and one of the entries in the
+<code>ports</code> array. In addition, a destination rule is considered a match only if at least one of the
+associated proxy identifiers is supported by the client(client understand all mandatory keys in the
+protocol description) and supports the protocol required by the connection attempt (for
+example, <code>connect-udp</code> for UDP traffic). If no listed proxy identifier is applicable,
+the rule <span class="bcp14">MUST</span> be treated as not matching, and the client continues evaluation of subsequent rules.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
+<p id="section-4.2-4">A matched rule will then either point to one or more proxy <code>identifier</code> values, which correspond
+to proxies defined in the array from <a href="#proxy-enumeration" class="auto internal xref">Section 3</a>, or instructs the client to not send the
+matching traffic to any proxy. If a matching rule contains more than one <code>identifier</code>, the client
+<span class="bcp14">MUST</span> treat the array as an ordered list, where the first <code>identifier</code> is the most preferred.
+Multiple proxy dictionaries can contain the same <code>identifier</code> value. In this case, the client
+can choose any of the proxies; however, the client ought to prefer using the same proxy for the consecutive requests
+to the same proxy <code>identifier</code> to increase connection reuse.<a href="#section-4.2-4" class="pilcrow">¶</a></p>
+<p id="section-4.2-5">Entries listed in a <code>proxy-match</code> object <span class="bcp14">MUST NOT</span> expand the set of destinations that a client is
+willing to send to a particular proxy. The array can only narrow the set of destinations
+that the client is willing to send through the proxy. For example, if the client
+has a local policy to only send requests for "*.example.com" to a proxy
+"proxy.example.com", and <code>domains</code> array of a <code>match</code> object contains "internal.example.com" and
+"other.company.com", the client would end up only proxying "internal.example.com"
+through the proxy.<a href="#section-4.2-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="proprietary-keys-in-destination-rules">
+<section id="section-4.3">
+        <h3 id="name-proprietary-keys-in-destina">
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-proprietary-keys-in-destina" class="section-name selfRef">Proprietary Keys in Destination Rules</a>
+        </h3>
+<p id="section-4.3-1">Implementations <span class="bcp14">MAY</span> include proprietary or vendor-specific keys in destination rules to define custom matching logic
+not specified in this document.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.3-2">Similar to proprietary keys in proxy dictionaries (<a href="#proxy-proprietary-keys" class="auto internal xref">Section 3.2</a>), a proprietary key in destination
+rule <span class="bcp14">MUST</span> contain at least one underscore character ("_"), which separates a vendor-specific namespace from the key name.
+For example, "acme_processid" could be a key used to apply rules only to traffic of a specific process identifier as
+defined by a vendor named "acme".<a href="#section-4.3-2" class="pilcrow">¶</a></p>
+<p id="section-4.3-3">Clients that encounter a proprietary key they do not recognize <span class="bcp14">MUST</span> ignore the entire destination rule in which the
+key appears. This ensures that unknown or unsupported matching logic does not inadvertently influence proxy selection
+or bypass security controls.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="examples">
+<section id="section-4.4">
+        <h3 id="name-examples">
+<a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
+        </h3>
+<p id="section-4.4-1">In the following example, two proxies are defined with a common identifier ("default_proxy"), with
+a single destination rule for "*.internal.example.org".<a href="#section-4.4-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.4-2">
+<pre>
+{
+  "identifier": "proxy.example.org.",
+  "expires": "2026-06-23T06:00:00Z",
+  "prefixes": [],
+  "proxies": [
+    {
+      "protocol": "http-connect",
+      "proxy": "proxy.example.org:80",
+      "identifier": "default_proxy"
+    },
+    {
+      "protocol": "http-connect",
+      "proxy": "proxy2.example.org:80",
+      "identifier": "default_proxy"
+    }
+  ],
+  "proxy-match": [
+    {
+      "domains": [ "*.internal.example.org" ],
+      "proxies": [ "default_proxy" ]
+    }
+  ]
+}
+</pre><a href="#section-4.4-2" class="pilcrow">¶</a>
+</div>
+<p id="section-4.4-3">The client could then choose to use either proxy associated with the "default_proxy" identifier
+for accessing TCP hosts that fall within the "*.internal.example.org" zone. This would include the
+hostnames "internal.example.org", "foo.internal.example.org", "www.bar.internal.example.org" and
+all other hosts within "internal.example.org". The client will use the same proxy for the following
+requests to hosts falling into the "*.internal.example.org" zone to increase connection reuse and make
+use of the connection resumption. The client will not use the proxies defined in this configuration
+to hosts outside of the "*.internal.example.org" zone.<a href="#section-4.4-3" class="pilcrow">¶</a></p>
+<p id="section-4.4-4">In the next example, two proxies are defined with a distinct identifier, and there are
+three destination rules:<a href="#section-4.4-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.4-5">
+<pre>
+{
+  "identifier": "proxy.example.org.",
+  "expires": "2026-06-23T06:00:00Z",
+  "prefixes": [],
+  "proxies": [
+    {
+      "protocol": "http-connect",
+      "proxy": "proxy.example.org:80",
+      "identifier": "default_proxy"
+    },
+    {
+      "protocol": "http-connect",
+      "proxy": "special-proxy.example.org:80",
+      "identifier": "special_proxy"
+    }
+  ],
+  "proxy-match": [
+    {
+      "domains": [ "*.special.example.org" ],
+      "ports": [ "80", "443", "49152-65535" ],
+      "proxies": [ "special_proxy" ]
+    },
+    {
+      "domains": [ "no-proxy.internal.example.org" ],
+      "proxies": [ ]
+    },
+    {
+      "domains": [ "*.internal.example.org" ],
+      "proxies": [ "default_proxy" ]
+    }
+  ]
+}
+</pre><a href="#section-4.4-5" class="pilcrow">¶</a>
+</div>
+<p id="section-4.4-6">In this case, the client would use "special-proxy.example.org:80"
+for any TCP traffic that matches "*.special.example.org" destined to ports 80, 443 or any port between
+49152 and 65535. The client would not use any of the defined proxies for access to
+"no-proxy.internal.example.org". And finally, the client would use
+"proxy.example.org:80" to access any other TCP traffic that matches
+"*.internal.example.org".<a href="#section-4.4-6" class="pilcrow">¶</a></p>
+<p id="section-4.4-7">In the following example, three proxies are sharing a common identifier ("default-proxy"), but use
+separate protocols constraining the traffic that they can process.<a href="#section-4.4-7" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.4-8">
+<pre>
+{
+  "identifier": "proxy.example.org.",
+  "expires": "2026-06-23T06:00:00Z",
+  "prefixes": [],
+  "proxies": [
+    {
+      "protocol": "http-connect",
+      "proxy": "proxy.example.org:80",
+      "identifier": "default_proxy"
+    },
+    {
+      "protocol": "connect-udp",
+      "proxy": "https://proxy.example.org/masque/udp/{target_host},{target_port}",
+      "identifier": "default_proxy"
+    },
+    {
+      "protocol": "connect-ip",
+      "proxy": "https://proxy.example.org/masque/ip{?target,ipproto}",
+      "identifier": "default_proxy"
+    }
+  ],
+  "proxy-match": [
+    {
+      "domains": [ "*.internal.example.org" ],
+      "proxies": [ "default_proxy" ]
+    }
+  ]
+}
+</pre><a href="#section-4.4-8" class="pilcrow">¶</a>
+</div>
+<p id="section-4.4-9">The client would use proxies in the following way:<a href="#section-4.4-9" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.4-10.1">
+            <p id="section-4.4-10.1.1">Traffic not destined to hosts within the "*.internal.example.org" zone is not sent
+to any proxy defined in this configuration<a href="#section-4.4-10.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.4-10.2">
+            <p id="section-4.4-10.2.1">TCP traffic destined to hosts within the "*.internal.example.org" zone is sent
+either to the proxy with "http-connect" protocol or to the proxy with "connect-ip" protocol<a href="#section-4.4-10.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.4-10.3">
+            <p id="section-4.4-10.3.1">UDP traffic destined to hosts within the "*.internal.example.org" zone is sent
+either to the proxy with "connect-udp" protocol or to the proxy with "connect-ip" protocol<a href="#section-4.4-10.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-4.4-10.4">
+            <p id="section-4.4-10.4.1">Traffic other than TCP and UDP destined to hosts within the "*.internal.example.org" zone is sent
+to the proxy with "connect-ip" protocol<a href="#section-4.4-10.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-4.4-11">The following example provides a configuration of proxies to be used by default with a
+set with exceptions to bypass:<a href="#section-4.4-11" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.4-12">
+<pre>
+{
+  "identifier": "proxy.example.org.",
+  "expires": "2026-06-23T06:00:00Z",
+  "prefixes": [],
+  "proxies": [
+    {
+      "protocol": "http-connect",
+      "proxy": "proxy.example.org:80",
+      "identifier": "default_proxy"
+    },
+    {
+      "protocol": "http-connect",
+      "proxy": "backup.example.org:80",
+      "identifier": "secondary_proxy"
+    }
+  ],
+  "proxy-match": [
+    {
+      "domains": [ "*.intranet.example.org" ],
+      "proxies": [ ]
+    },
+    {
+      "subnets": [ "192.0.2.0/24", "2001:db8::/32" ],
+      "proxies": [ ]
+    },
+    {
+      "proxies": [ "default_proxy", "secondary_proxy" ]
+    }
+  ]
+}
+</pre><a href="#section-4.4-12" class="pilcrow">¶</a>
+</div>
+<p id="section-4.4-13">In this case, the client will not forward TCP traffic that is destined to hosts matching
+"*.intranet.example.org", 192.0.2.0/24 or 2001:db8::/32, through the proxies.
+Due to the order in "proxies" array in the last rule of "proxy-match", the client would prefer
+"proxy.example.org:80" over "backup.example.org:80"<a href="#section-4.4-13" class="pilcrow">¶</a></p>
+<p id="section-4.4-14">The following example provides a configuration of proxies that enable setting one proxy
+for "example.org" and a different proxy for all of its subdomains, i.e. "*.example.org":<a href="#section-4.4-14" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.4-15">
+<pre>
+{
+  "identifier": "proxy.example.org.",
+  "expires": "2026-06-23T06:00:00Z",
+  "prefixes": [],
+  "proxies": [
+    {
+      "protocol": "http-connect",
+      "proxy": "proxy1.example.org:80",
+      "identifier": "proxy1"
+    },
+    {
+      "protocol": "http-connect",
+      "proxy": "proxy2.example.org:80",
+      "identifier": "proxy2"
+    }
+  ],
+  "proxy-match": [
+    {
+      "domains": [ "example.org" ],
+      "proxies": [ "proxy1" ]
+    },
+    {
+      "domains": [ "*.example.org" ],
+      "proxies": [ "proxy2" ]
+    }
+  ]
+}
+</pre><a href="#section-4.4-15" class="pilcrow">¶</a>
+</div>
+<p id="section-4.4-16">In this case, the client will forward TCP traffic that is destined to host "example.org"
+to "proxy1.example.org:80" and all traffic to the subdomains of "example.org", i.e.
+"*.example.org" will be forwarded to "proxy2.example.org:80".<a href="#section-4.4-16" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="network-proxies">
+<section id="section-5">
+      <h2 id="name-discovering-proxies-from-ne">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-discovering-proxies-from-ne" class="section-name selfRef">Discovering proxies from network PvDs</a>
+      </h2>
+<p id="section-5-1"><span>[<a href="#RFC8801" class="cite xref">PVDDATA</a>]</span> defines how PvD Additional Information is discovered based
+on network advertisements using Router Advertisements <span>[<a href="#RFC4861" class="cite xref">RFC4861</a>]</span>. This means
+that a network defining its configuration via PvD information can include
+the <code>proxies</code> key (<a href="#proxy-enumeration" class="auto internal xref">Section 3</a>). However, clients <span class="bcp14">MUST NOT</span> automatically
+use these proxy configurations, unless the device has been explicitly provisioned
+to trust this configuration from the network for specific proxy hosts; for example,
+a corporate-managed device could use this mechanism on an authenticated corporate
+network to learn which of an allowed set of proxy URIs are available at this
+particular location.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-2">Future specifications can define ways to dynamically trust proxy configurations delivered
+by a network, but such mechanisms are out of scope for this document.<a href="#section-5-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-considerations">
+<section id="section-6">
+      <h2 id="name-security-considerations">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-6-1">This document extends the PvD Additional Information defined in <span>[<a href="#RFC8801" class="cite xref">PVDDATA</a>]</span>; as such,
+all security considerations from <span>[<a href="#RFC8801" class="cite xref">PVDDATA</a>]</span> apply here.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">The mechanisms in this document allow clients using a proxy to "upgrade" a configuration
+for a cleartext HTTP/1.1 or SOCKS proxy into a configuration that uses TLS to communication to the proxy.
+This upgrade can add protection to the proxied traffic so it is less observable by
+entities along the network path; however it does not prevent the proxy itself from
+observing the traffic being proxied.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">Configuration advertised via PvD Additional Information, such as DNS zones or associated
+proxies, can only be safely used when fetched over a secure TLS-protected connection,
+and the client has validated that the hostname of the proxy, the identifier of
+the PvD, and the validated hostname identity on the certificate all match.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-4">The lists of proxies and destination rules provided by the PvD Additional Information might
+exceed the memory constraints or processing capabilities of clients, particularly for constrained
+devices. A client that is not able to process all of the content of either the proxies list
+or destination rules due to resource limitations <span class="bcp14">MUST</span> ignore the proxy configuration entirely.
+Clients <span class="bcp14">MUST</span> implement limits for the maximum number of proxy configurations and destination rules
+that they are able to process; the specific limits will vary based on device capabilities.<a href="#section-6-4" class="pilcrow">¶</a></p>
+<p id="section-6-5">When using information in destination rules (<a href="#destinations" class="auto internal xref">Section 4</a>), clients <span class="bcp14">MUST</span> only allow
+the PvD configuration to narrow the scope of traffic that they will send through a proxy.
+Clients that are configured by policy to only send a particular set of traffic through
+a particular proxy can learn about rules that will cause them to send more narrowly-scoped
+traffic, but <span class="bcp14">MUST NOT</span> send traffic that would go beyond what is allowed by local policy.<a href="#section-6-5" class="pilcrow">¶</a></p>
+<p id="section-6-6">As described in <a href="#network-proxies" class="auto internal xref">Section 5</a>, proxy configuration discovered based on RAs from a network
+<span class="bcp14">MUST NOT</span> be automatically used by clients to start using proxies when they would otherwise
+not proxy traffic.<a href="#section-6-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-7">
+      <h2 id="name-iana-considerations">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<div id="proxies-key-iana">
+<section id="section-7.1">
+        <h3 id="name-new-pvd-additional-informat">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-new-pvd-additional-informat" class="section-name selfRef">New PvD Additional Information key</a>
+        </h3>
+<p id="section-7.1-1">This document registers two new keys in the "Additional Information PvD Keys" registry <span>[<a href="#IANA_PVD" class="cite xref">IANA_PVD</a>]</span>.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<div id="proxies-key">
+<section id="section-7.1.1">
+          <h4 id="name-proxies-key">
+<a href="#section-7.1.1" class="section-number selfRef">7.1.1. </a><a href="#name-proxies-key" class="section-name selfRef"><code>proxies</code> Key</a>
+          </h4>
+<p id="section-7.1.1-1">JSON Key: proxies<a href="#section-7.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1.1-2">Description: Array of proxy dictionaries associated with this PvD<a href="#section-7.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-7.1.1-3">Type: Array of dictionaries<a href="#section-7.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-7.1.1-4">Example:<a href="#section-7.1.1-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-7.1.1-5">
+<pre>
+[
+ {
+  "protocol": "connect-udp",
+  "proxy": "https://proxy.example.org/masque{?target_host,target_port}"
+ }
+]
+</pre><a href="#section-7.1.1-5" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="proxy-match-key">
+<section id="section-7.1.2">
+          <h4 id="name-proxy-match-key">
+<a href="#section-7.1.2" class="section-number selfRef">7.1.2. </a><a href="#name-proxy-match-key" class="section-name selfRef"><code>proxy-match</code> Key</a>
+          </h4>
+<p id="section-7.1.2-1">JSON Key: proxy-match<a href="#section-7.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.1.2-2">Description: Array of proxy match rules, as dictionaries, associated with
+entries in the <code>proxies</code> array.<a href="#section-7.1.2-2" class="pilcrow">¶</a></p>
+<p id="section-7.1.2-3">Type: Array of dictionaries<a href="#section-7.1.2-3" class="pilcrow">¶</a></p>
+<p id="section-7.1.2-4">Example:<a href="#section-7.1.2-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-7.1.2-5">
+<pre>
+[
+ {
+  "domains": [ "*.internal.example.org" ],
+  "proxies": [ "default_proxy" ]
+ }
+]
+</pre><a href="#section-7.1.2-5" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="proxy-info-iana">
+<section id="section-7.2">
+        <h3 id="name-new-pvd-proxy-information-r">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-new-pvd-proxy-information-r" class="section-name selfRef">New PvD Proxy Information Registry</a>
+        </h3>
+<p id="section-7.2-1">IANA is requested to create a new registry "Proxy Information PvD Keys", within the "Provisioning Domains (PvDs)" registry page.
+This new registry reserves JSON keys for use in sub-dictionaries under the <code>proxies</code> key.
+The initial contents of this registry are given in <a href="#proxy-information-keys-table" class="auto internal xref">Table 1</a>.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.2-2">New assignments in the "Proxy Information PvD Keys" registry will be administered by IANA through Expert Review <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.
+Experts are requested to ensure that defined keys do not overlap in names or semantics, do not contain an underscore character ("_")
+in the names (since underscores are reserved for vendor-specific keys), and have clear format definitions.
+The reference and notes fields may be empty.<a href="#section-7.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="proxy-protocol-iana">
+<section id="section-7.3">
+        <h3 id="name-new-pvd-proxy-protocol-regi">
+<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-new-pvd-proxy-protocol-regi" class="section-name selfRef">New PvD Proxy Protocol Registry</a>
+        </h3>
+<p id="section-7.3-1">IANA is requested to create a new registry "Proxy Protocol PvD Values", within the "Provisioning Domains (PvDs)" registry page.
+This new registry reserves JSON values for the <code>protocol</code> key in <code>proxies</code> sub-dictionaries.
+The initial contents of this registry are given in <a href="#proxy-protocol-value-table" class="auto internal xref">Table 2</a>.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
+<p id="section-7.3-2">New assignments in the "Proxy Protocol PvD Values" registry will be administered by IANA through Expert Review <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.
+Experts are requested to ensure that defined keys do not overlap in names. The reference and notes fields may be empty.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="proxy-destination-iana">
+<section id="section-7.4">
+        <h3 id="name-new-pvd-proxy-destination-r">
+<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-new-pvd-proxy-destination-r" class="section-name selfRef">New PvD Proxy Destination Rule Registry</a>
+        </h3>
+<p id="section-7.4-1">IANA is requested to create a new registry "Proxy Destination Rule PvD Keys", within the "Provisioning Domains (PvDs)" registry page.
+This new registry reserves JSON keys for use in sub-dictionaries under the <code>proxy-match</code> key.
+The initial contents of this registry are given in <a href="#destination-rule-keys-table" class="auto internal xref">Table 3</a>.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
+<p id="section-7.4-2">New assignments in the "Proxy Destination Rule PvD Keys" registry will be administered by IANA through Expert Review <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.
+Experts are requested to ensure that defined keys do not overlap in names or semantics, and do not contain an underscore character ("_")
+in the names (since underscores are reserved for vendor-specific keys).<a href="#section-7.4-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="svcparamkey-iana">
+<section id="section-7.5">
+        <h3 id="name-new-dns-svcb-service-parame">
+<a href="#section-7.5" class="section-number selfRef">7.5. </a><a href="#name-new-dns-svcb-service-parame" class="section-name selfRef">New DNS SVCB Service Parameter Key (SvcParamKey)</a>
+        </h3>
+<p id="section-7.5-1">IANA is requested to add a new entry to the "DNS SVCB Service Parameter Keys (SvcParamKeys)" registry
+<span>[<a href="#IANA_SVCB" class="cite xref">IANA_SVCB</a>]</span>:<a href="#section-7.5-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.5-2.1">
+            <p id="section-7.5-2.1.1">Number: TBD<a href="#section-7.5-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.5-2.2">
+            <p id="section-7.5-2.2.1">Name: pvd<a href="#section-7.5-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.5-2.3">
+            <p id="section-7.5-2.3.1">Meaning: PvD configuration is available at the well-known path<a href="#section-7.5-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.5-2.4">
+            <p id="section-7.5-2.4.1">Change Controller: IETF<a href="#section-7.5-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.5-2.5">
+            <p id="section-7.5-2.5.1">Reference: this document, <a href="#svcparamkey" class="auto internal xref">Section 2.1</a><a href="#section-7.5-2.5.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="sec-combined-references">
+<section id="section-8">
+      <h2 id="name-references">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<div id="sec-normative-references">
+<section id="section-8.1">
+        <h3 id="name-normative-references">
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC7301">[ALPN]</dt>
+        <dd>
+<span class="refAuthor">Friedl, S.</span>, <span class="refAuthor">Popov, A.</span>, <span class="refAuthor">Langley, A.</span>, and <span class="refAuthor">E. Stephan</span>, <span class="refTitle">"Transport Layer Security (TLS) Application-Layer Protocol Negotiation Extension"</span>, <span class="seriesInfo">RFC 7301</span>, <span class="seriesInfo">DOI 10.17487/RFC7301</span>, <time datetime="2014-07" class="refDate">July 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7301">https://www.rfc-editor.org/rfc/rfc7301</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC4632">[CIDR]</dt>
+        <dd>
+<span class="refAuthor">Fuller, V.</span> and <span class="refAuthor">T. Li</span>, <span class="refTitle">"Classless Inter-domain Routing (CIDR): The Internet Address Assignment and Aggregation Plan"</span>, <span class="seriesInfo">BCP 122</span>, <span class="seriesInfo">RFC 4632</span>, <span class="seriesInfo">DOI 10.17487/RFC4632</span>, <time datetime="2006-08" class="refDate">August 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4632">https://www.rfc-editor.org/rfc/rfc4632</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9110">[HTTP]</dt>
+        <dd>
+<span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP Semantics"</span>, <span class="seriesInfo">STD 97</span>, <span class="seriesInfo">RFC 9110</span>, <span class="seriesInfo">DOI 10.17487/RFC9110</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9110">https://www.rfc-editor.org/rfc/rfc9110</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC4291">[IPv6-ADDR]</dt>
+        <dd>
+<span class="refAuthor">Hinden, R.</span> and <span class="refAuthor">S. Deering</span>, <span class="refTitle">"IP Version 6 Addressing Architecture"</span>, <span class="seriesInfo">RFC 4291</span>, <span class="seriesInfo">DOI 10.17487/RFC4291</span>, <time datetime="2006-02" class="refDate">February 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4291">https://www.rfc-editor.org/rfc/rfc4291</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8259">[JSON]</dt>
+        <dd>
+<span class="refAuthor">Bray, T., Ed.</span>, <span class="refTitle">"The JavaScript Object Notation (JSON) Data Interchange Format"</span>, <span class="seriesInfo">STD 90</span>, <span class="seriesInfo">RFC 8259</span>, <span class="seriesInfo">DOI 10.17487/RFC8259</span>, <time datetime="2017-12" class="refDate">December 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8259">https://www.rfc-editor.org/rfc/rfc8259</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8801">[PVDDATA]</dt>
+        <dd>
+<span class="refAuthor">Pfister, P.</span>, <span class="refAuthor">Vyncke, É.</span>, <span class="refAuthor">Pauly, T.</span>, <span class="refAuthor">Schinazi, D.</span>, and <span class="refAuthor">W. Shao</span>, <span class="refTitle">"Discovering Provisioning Domain Names and Data"</span>, <span class="seriesInfo">RFC 8801</span>, <span class="seriesInfo">DOI 10.17487/RFC8801</span>, <time datetime="2020-07" class="refDate">July 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8801">https://www.rfc-editor.org/rfc/rfc8801</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8126">[RFC8126]</dt>
+        <dd>
+<span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Leiba, B.</span>, and <span class="refAuthor">T. Narten</span>, <span class="refTitle">"Guidelines for Writing an IANA Considerations Section in RFCs"</span>, <span class="seriesInfo">BCP 26</span>, <span class="seriesInfo">RFC 8126</span>, <span class="seriesInfo">DOI 10.17487/RFC8126</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8126">https://www.rfc-editor.org/rfc/rfc8126</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+        <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9460">[SVCB-DNS]</dt>
+        <dd>
+<span class="refAuthor">Schwartz, B.</span>, <span class="refAuthor">Bishop, M.</span>, and <span class="refAuthor">E. Nygren</span>, <span class="refTitle">"Service Binding and Parameter Specification via the DNS (SVCB and HTTPS Resource Records)"</span>, <span class="seriesInfo">RFC 9460</span>, <span class="seriesInfo">DOI 10.17487/RFC9460</span>, <time datetime="2023-11" class="refDate">November 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9460">https://www.rfc-editor.org/rfc/rfc9460</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3986">[URI]</dt>
+      <dd>
+<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="sec-informative-references">
+<section id="section-8.2">
+        <h3 id="name-informative-references">
+<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC9484">[CONNECT-IP]</dt>
+        <dd>
+<span class="refAuthor">Pauly, T., Ed.</span>, <span class="refAuthor">Schinazi, D.</span>, <span class="refAuthor">Chernyakhovsky, A.</span>, <span class="refAuthor">Kühlewind, M.</span>, and <span class="refAuthor">M. Westerlund</span>, <span class="refTitle">"Proxying IP in HTTP"</span>, <span class="seriesInfo">RFC 9484</span>, <span class="seriesInfo">DOI 10.17487/RFC9484</span>, <time datetime="2023-10" class="refDate">October 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9484">https://www.rfc-editor.org/rfc/rfc9484</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-httpbis-connect-tcp">[CONNECT-TCP]</dt>
+        <dd>
+<span class="refAuthor">Schwartz, B. M.</span>, <span class="refTitle">"Template-Driven HTTP CONNECT Proxying for TCP"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-httpbis-connect-tcp-17</span>, <time datetime="2026-10-29" class="refDate">29 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-connect-tcp-17">https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-connect-tcp-17</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9298">[CONNECT-UDP]</dt>
+        <dd>
+<span class="refAuthor">Schinazi, D.</span>, <span class="refTitle">"Proxying UDP in HTTP"</span>, <span class="seriesInfo">RFC 9298</span>, <span class="seriesInfo">DOI 10.17487/RFC9298</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9298">https://www.rfc-editor.org/rfc/rfc9298</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2939">[IANA-DHCP]</dt>
+        <dd>
+<span class="refAuthor">Droms, R.</span>, <span class="refTitle">"Procedures and IANA Guidelines for Definition of New DHCP Options and Message Types"</span>, <span class="seriesInfo">BCP 43</span>, <span class="seriesInfo">RFC 2939</span>, <span class="seriesInfo">DOI 10.17487/RFC2939</span>, <time datetime="2000-09" class="refDate">September 2000</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2939">https://www.rfc-editor.org/rfc/rfc2939</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="IANA_PVD">[IANA_PVD]</dt>
+        <dd>
+<span class="refAuthor">IANA</span>, <span class="refTitle">"Additional Information PvD Keys"</span>, <span>&lt;<a href="https://www.iana.org/assignments/pvds">https://www.iana.org/assignments/pvds</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="IANA_SVCB">[IANA_SVCB]</dt>
+        <dd>
+<span class="refAuthor">IANA</span>, <span class="refTitle">"DNS SVCB Service Parameter Keys (SvcParamKeys)"</span>, <span>&lt;<a href="https://www.iana.org/assignments/dns-svcb">https://www.iana.org/assignments/dns-svcb</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8598">[IKEV2SPLIT]</dt>
+        <dd>
+<span class="refAuthor">Pauly, T.</span> and <span class="refAuthor">P. Wouters</span>, <span class="refTitle">"Split DNS Configuration for the Internet Key Exchange Protocol Version 2 (IKEv2)"</span>, <span class="seriesInfo">RFC 8598</span>, <span class="seriesInfo">DOI 10.17487/RFC8598</span>, <time datetime="2019-05" class="refDate">May 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8598">https://www.rfc-editor.org/rfc/rfc8598</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7556">[PVD]</dt>
+        <dd>
+<span class="refAuthor">Anipko, D., Ed.</span>, <span class="refTitle">"Multiple Provisioning Domain Architecture"</span>, <span class="seriesInfo">RFC 7556</span>, <span class="seriesInfo">DOI 10.17487/RFC7556</span>, <time datetime="2015-06" class="refDate">June 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7556">https://www.rfc-editor.org/rfc/rfc7556</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3040">[RFC3040]</dt>
+        <dd>
+<span class="refAuthor">Cooper, I.</span>, <span class="refAuthor">Melve, I.</span>, and <span class="refAuthor">G. Tomlinson</span>, <span class="refTitle">"Internet Web Replication and Caching Taxonomy"</span>, <span class="seriesInfo">RFC 3040</span>, <span class="seriesInfo">DOI 10.17487/RFC3040</span>, <time datetime="2001-01" class="refDate">January 2001</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3040">https://www.rfc-editor.org/rfc/rfc3040</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC4861">[RFC4861]</dt>
+        <dd>
+<span class="refAuthor">Narten, T.</span>, <span class="refAuthor">Nordmark, E.</span>, <span class="refAuthor">Simpson, W.</span>, and <span class="refAuthor">H. Soliman</span>, <span class="refTitle">"Neighbor Discovery for IP version 6 (IPv6)"</span>, <span class="seriesInfo">RFC 4861</span>, <span class="seriesInfo">DOI 10.17487/RFC4861</span>, <time datetime="2007-09" class="refDate">September 2007</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4861">https://www.rfc-editor.org/rfc/rfc4861</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC1928">[SOCKSv5]</dt>
+        <dd>
+<span class="refAuthor">Leech, M.</span>, <span class="refAuthor">Ganis, M.</span>, <span class="refAuthor">Lee, Y.</span>, <span class="refAuthor">Kuris, R.</span>, <span class="refAuthor">Koblas, D.</span>, and <span class="refAuthor">L. Jones</span>, <span class="refTitle">"SOCKS Protocol Version 5"</span>, <span class="seriesInfo">RFC 1928</span>, <span class="seriesInfo">DOI 10.17487/RFC1928</span>, <time datetime="1996-03" class="refDate">March 1996</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc1928">https://www.rfc-editor.org/rfc/rfc1928</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6570">[URITEMPLATE]</dt>
+      <dd>
+<span class="refAuthor">Gregorio, J.</span>, <span class="refAuthor">Fielding, R.</span>, <span class="refAuthor">Hadley, M.</span>, <span class="refAuthor">Nottingham, M.</span>, and <span class="refAuthor">D. Orchard</span>, <span class="refTitle">"URI Template"</span>, <span class="seriesInfo">RFC 6570</span>, <span class="seriesInfo">DOI 10.17487/RFC6570</span>, <time datetime="2012-03" class="refDate">March 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6570">https://www.rfc-editor.org/rfc/rfc6570</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="appendix-A">
+      <h2 id="name-acknowledgments">
+<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="appendix-A-1">The authors would like to thank <span class="contact-name">Phil Lisiecki</span>, <span class="contact-name">David Schinazi</span>, <span class="contact-name">Dale Worley</span>, <span class="contact-name">Tomas Dragoun</span>, <span class="contact-name">Keith Holleman</span>, <span class="contact-name">James Taft</span>, <span class="contact-name">Tommy Jensen</span>, and <span class="contact-name">Ryan Globus</span> for their detailed reviews, feedback, and suggestions during the development of this document.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-B">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Tommy Pauly</span></div>
+<div dir="auto" class="left"><span class="org">Apple, Inc.</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:tpauly@apple.com" class="email">tpauly@apple.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Dragana Damjanovic</span></div>
+<div dir="auto" class="left"><span class="org">Microsoft</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:ddamjanovic@microsoft.com" class="email">ddamjanovic@microsoft.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Yaroslav Rosomakho</span></div>
+<div dir="auto" class="left"><span class="org">Zscaler</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:yrosomakho@zscaler.com" class="email">yrosomakho@zscaler.com</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>

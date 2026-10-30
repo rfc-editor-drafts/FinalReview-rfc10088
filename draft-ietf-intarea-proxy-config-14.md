@@ -2,7 +2,7 @@
 title: Communicating Proxy Configurations in Provisioning Domains
 abbrev: Proxy Configuration PvDs
 docname: draft-ietf-intarea-proxy-config-latest
-date: 2026-05
+date: 2026-11
 category: std
 ipr: trust200902
 pi: [toc, sortrefs, symrefs]
