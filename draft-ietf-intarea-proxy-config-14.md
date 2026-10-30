@@ -87,11 +87,10 @@ informative:
 
 --- abstract
 
-<!-- [rfced] pre-edit and initial formatting by ST 05/21/26 -->
-<!-- [rfced] reference review by TH 06/17/26 -->
-
 <!-- [rfced] Please insert any keywords (beyond those that appear in
 the title) for use on https://www.rfc-editor.org/search. -->
+
+<!-- [rfced] We note that some RFC reference entries use symbolic citation tags (e.g., RFC 1928 uses [SOCKSv5]) and others use their respective RFC numbers (e.g., RFC 4861 uses [RFC4861]). Is this intentional? If not, should any updates be made for consistency? -->
 
 This document defines a mechanism for accessing provisioning domain information
 associated with a proxy, such as other proxy URIs that support different protocols
@@ -159,17 +158,6 @@ and security vulnerabilities.
 ## Requirements Keywords
 
 {::boilerplate bcp14-tagged}
-
-## Note to the RFC Editor
-
-RFC EDITOR: Please remove this section before publication.
-
-Various identifier words are used in this draft using the `code` markdown
-and are easily noted in the HTML rendering of this draft. The authors kindly
-request that the RFC editor makes these instances noticeable via appropriate
-markings in the `TXT` and `PDF` renderings of this draft.  The term include,
-but may not be limited to the following:
-`proxies` `protocol` `proxy` `mandatory` `alpn` `identifier`
 
 # Fetching PvD Additional Information for proxies {#proxy-pvd}
 
@@ -252,7 +240,7 @@ This hint is advisory; clients MAY still attempt to fetch PvD Additional Informa
 
 The `pvd` SvcParamKey is registered with IANA as described in {{svcparamkey-iana}}.
 
-# Enumerating proxies within a PvD {#proxy-enumeration}
+# Enumerating Proxies Within a PvD {#proxy-enumeration}
 
 This document defines a new PvD Additional Information key, `proxies`, that
 is an array of dictionaries, where each dictionary in the array defines
@@ -273,7 +261,7 @@ PvD information from the well-known URI to learn the list of complete
 URIs that support non-default protocols, such as {{RFC9298}} and
 {{RFC9484}}.
 
-## Proxy dictionary keys
+## Proxy Dictionary Keys
 
 This document defines two required keys for the sub-dictionaries in the
 `proxies` array: `protocol` and `proxy`. There are also optional keys, including
@@ -344,7 +332,7 @@ in {{destinations}}. Proxies with `identifier` keys are expected to accept traff
 matching rules in the `proxy-match` array and MUST NOT be used if they are not included in
 the `proxy-match` array.
 
-## Proprietary keys in proxy configurations {#proxy-proprietary-keys}
+## Proprietary Keys in Proxy Configurations {#proxy-proprietary-keys}
 
 Implementations MAY include proprietary or vendor-specific keys in the sub-dictionaries of the `proxies`
 array to convey additional proxy configuration information not defined in this specification.
@@ -730,7 +718,7 @@ In this case, the client will forward TCP traffic that is destined to host "exam
 to "proxy1.example.org:80" and all traffic to the subdomains of "example.org", i.e.
 "\*.example.org" will be forwarded to "proxy2.example.org:80".
 
-# Discovering proxies from network PvDs {#network-proxies}
+# Discovering Proxies From Network PvDs {#network-proxies}
 
 {{RFC8801}} defines how PvD Additional Information is discovered based
 on network advertisements using Router Advertisements {{?RFC4861}}. This means
@@ -780,7 +768,7 @@ not proxy traffic.
 
 # IANA Considerations
 
-## New PvD Additional Information key {#proxies-key-iana}
+## New PvD Additional Information Key {#proxies-key-iana}
 
 This document registers two new keys in the "Additional Information PvD Keys" registry {{IANA_PVD}}.
 

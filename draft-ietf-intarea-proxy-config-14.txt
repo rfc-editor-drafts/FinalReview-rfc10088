@@ -8,7 +8,7 @@ Category: Standards Track                                  D. Damjanovic
 ISSN: 2070-1721                                                Microsoft
                                                             Y. Rosomakho
                                                                  Zscaler
-                                                                May 2026
+                                                           November 2026
 
 
        Communicating Proxy Configurations in Provisioning Domains
@@ -54,22 +54,21 @@ Table of Contents
    1.  Introduction
      1.1.  Background
      1.2.  Requirements Keywords
-     1.3.  Note to the RFC Editor
    2.  Fetching PvD Additional Information for proxies
      2.1.  Discovery via HTTPS/SVCB Records
-   3.  Enumerating proxies within a PvD
-     3.1.  Proxy dictionary keys
-     3.2.  Proprietary keys in proxy configurations
+   3.  Enumerating Proxies Within a PvD
+     3.1.  Proxy Dictionary Keys
+     3.2.  Proprietary Keys in Proxy Configurations
      3.3.  Example
    4.  Destination accessibility information for proxies
      4.1.  Destination Rule Keys
      4.2.  Using Destination Rules
      4.3.  Proprietary Keys in Destination Rules
      4.4.  Examples
-   5.  Discovering proxies from network PvDs
+   5.  Discovering Proxies From Network PvDs
    6.  Security Considerations
    7.  IANA Considerations
-     7.1.  New PvD Additional Information key
+     7.1.  New PvD Additional Information Key
        7.1.1.  proxies Key
        7.1.2.  proxy-match Key
      7.2.  New PvD Proxy Information Registry
@@ -154,17 +153,6 @@ Table of Contents
    "OPTIONAL" in this document are to be interpreted as described in
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
-
-1.3.  Note to the RFC Editor
-
-   RFC EDITOR: Please remove this section before publication.
-
-   Various identifier words are used in this draft using the code
-   markdown and are easily noted in the HTML rendering of this draft.
-   The authors kindly request that the RFC editor makes these instances
-   noticeable via appropriate markings in the TXT and PDF renderings of
-   this draft.  The term include, but may not be limited to the
-   following: proxies protocol proxy mandatory alpn identifier
 
 2.  Fetching PvD Additional Information for proxies
 
@@ -259,7 +247,7 @@ Table of Contents
    The pvd SvcParamKey is registered with IANA as described in
    Section 7.5.
 
-3.  Enumerating proxies within a PvD
+3.  Enumerating Proxies Within a PvD
 
    This document defines a new PvD Additional Information key, proxies,
    that is an array of dictionaries, where each dictionary in the array
@@ -281,7 +269,7 @@ Table of Contents
    URI to learn the list of complete URIs that support non-default
    protocols, such as [CONNECT-UDP] and [CONNECT-IP].
 
-3.1.  Proxy dictionary keys
+3.1.  Proxy Dictionary Keys
 
    This document defines two required keys for the sub-dictionaries in
    the proxies array: protocol and proxy.  There are also optional keys,
@@ -423,7 +411,7 @@ Table of Contents
    accept traffic based on matching rules in the proxy-match array and
    MUST NOT be used if they are not included in the proxy-match array.
 
-3.2.  Proprietary keys in proxy configurations
+3.2.  Proprietary Keys in Proxy Configurations
 
    Implementations MAY include proprietary or vendor-specific keys in
    the sub-dictionaries of the proxies array to convey additional proxy
@@ -871,7 +859,7 @@ content-length = 322
    subdomains of "example.org", i.e. "*.example.org" will be forwarded
    to "proxy2.example.org:80".
 
-5.  Discovering proxies from network PvDs
+5.  Discovering Proxies From Network PvDs
 
    [PVDDATA] defines how PvD Additional Information is discovered based
    on network advertisements using Router Advertisements [RFC4861].
@@ -931,7 +919,7 @@ content-length = 322
 
 7.  IANA Considerations
 
-7.1.  New PvD Additional Information key
+7.1.  New PvD Additional Information Key
 
    This document registers two new keys in the "Additional Information
    PvD Keys" registry [IANA_PVD].
