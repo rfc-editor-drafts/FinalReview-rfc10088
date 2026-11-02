@@ -13,8 +13,8 @@
 <strong><font color='green'>ISSN: 2070-1721</font></strong>                                                Microsoft
                                                             Y. Rosomakho
                                                                  Zscaler
-                                                             <strike><font color='red'>19</font></strike>
-                                                                May 2026
+                                                             <strike><font color='red'>19 May</font></strike>
+                                                           <strong><font color='green'>November</font></strong> 2026
 
        Communicating Proxy Configurations in Provisioning Domains
                  <strike><font color='red'>draft-ietf-intarea-proxy-config-latest</font></strike>
@@ -41,9 +41,9 @@ Status of This Memo
    Internet-Drafts are draft documents valid</font></strike> <strong><font color='green'>the IETF community.  It has
    received public review and has been approved</font></strong> for <strike><font color='red'>a maximum</font></strike> <strong><font color='green'>publication by the
    Internet Engineering Steering Group (IESG).  Further information on
-   Internet Standards is available in Section 2 of RFC 7841.
+   Internet Standards is available in Section 2</font></strong> of <strike><font color='red'>six months</font></strike> <strong><font color='green'>RFC 7841.
 
-   Information about the current status</font></strong> of <strike><font color='red'>six months</font></strike> <strong><font color='green'>this document, any errata,</font></strong>
+   Information about the current status of this document, any errata,</font></strong>
    and <strong><font color='green'>how to provide feedback on it</font></strong> may be <strike><font color='red'>updated, replaced, or obsoleted by other documents</font></strike> <strong><font color='green'>obtained</font></strong> at <strike><font color='red'>any
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
@@ -71,23 +71,23 @@ Table of Contents
 
    1.  Introduction  <strike><font color='red'>. . . . . . . . . . . . . . . . . . . . . . . .   3</font></strike>
      1.1.  Background  <strike><font color='red'>. . . . . . . . . . . . . . . . . . . . . . .   4</font></strike>
-     1.2.  Requirements Keywords <strike><font color='red'>. . . . . . . . . . . . . . . . . .   4</font></strike>
-     1.3.  Note to the RFC Editor  <strike><font color='red'>. . . . . . . . . . . . . . . . .   4</font></strike>
-   2.  Fetching PvD Additional Information for proxies <strike><font color='red'>. . . . . . .   4</font></strike>
+     1.2.  Requirements Keywords <strike><font color='red'>. . . . . . . . . . . . . . . . . .   4
+     1.3.  Note to the RFC Editor  . . . . . . . . . . . . . . . . .   4</font></strike>
+   2.  Fetching PvD Additional Information for <strike><font color='red'>proxies . . . . . . .   4</font></strike> <strong><font color='green'>Proxies</font></strong>
      2.1.  Discovery via HTTPS/SVCB Records  <strike><font color='red'>. . . . . . . . . . . .   6</font></strike>
-   3.  Enumerating proxies within a PvD  <strike><font color='red'>. . . . . . . . . . . . . .   7</font></strike>
-     3.1.  Proxy dictionary keys <strike><font color='red'>. . . . . . . . . . . . . . . . . .   7</font></strike>
-     3.2.  Proprietary keys in proxy configurations  <strike><font color='red'>. . . . . . . .  10</font></strike>
+   3.  Enumerating <strike><font color='red'>proxies within</font></strike> <strong><font color='green'>Proxies Within</font></strong> a PvD  <strike><font color='red'>. . . . . . . . . . . . . .   7</font></strike>
+     3.1.  Proxy <strike><font color='red'>dictionary keys . . . . . . . . . . . . . . . . . .   7</font></strike> <strong><font color='green'>Dictionary Keys</font></strong>
+     3.2.  Proprietary <strike><font color='red'>keys</font></strike> <strong><font color='green'>Keys</font></strong> in <strike><font color='red'>proxy configurations  . . . . . . . .  10</font></strike> <strong><font color='green'>Proxy Configurations</font></strong>
      3.3.  Example <strike><font color='red'>. . . . . . . . . . . . . . . . . . . . . . . . .  10</font></strike>
    4.  Destination accessibility information for proxies <strike><font color='red'>. . . . . .  11</font></strike>
      4.1.  Destination Rule Keys <strike><font color='red'>. . . . . . . . . . . . . . . . . .  12</font></strike>
      4.2.  Using Destination Rules <strike><font color='red'>. . . . . . . . . . . . . . . . .  14</font></strike>
      4.3.  Proprietary Keys in Destination Rules <strike><font color='red'>. . . . . . . . . .  15</font></strike>
      4.4.  Examples  <strike><font color='red'>. . . . . . . . . . . . . . . . . . . . . . . .  16</font></strike>
-   5.  Discovering proxies from network PvDs <strike><font color='red'>. . . . . . . . . . . .  20</font></strike>
+   5.  Discovering <strike><font color='red'>proxies from network</font></strike> <strong><font color='green'>Proxies From Network</font></strong> PvDs <strike><font color='red'>. . . . . . . . . . . .  20</font></strike>
    6.  Security Considerations <strike><font color='red'>. . . . . . . . . . . . . . . . . . .  21</font></strike>
    7.  IANA Considerations <strike><font color='red'>. . . . . . . . . . . . . . . . . . . . .  22</font></strike>
-     7.1.  New PvD Additional Information key  <strike><font color='red'>. . . . . . . . . . .  22</font></strike>
+     7.1.  New PvD Additional Information <strike><font color='red'>key  . . . . . . . . . . .  22</font></strike> <strong><font color='green'>Key</font></strong>
        7.1.1.  proxies Key <strike><font color='red'>. . . . . . . . . . . . . . . . . . . . .  22</font></strike>
        7.1.2.  proxy-match Key <strike><font color='red'>. . . . . . . . . . . . . . . . . . .  22</font></strike>
      7.2.  New PvD Proxy Information Registry  <strike><font color='red'>. . . . . . . . . . .  23</font></strike>
@@ -111,8 +111,8 @@ Table of Contents
    [URITEMPLATE].
 
    In order to make use of multiple related proxies, clients need a way
-   to understand which proxies are associated with one another, and
-   which protocols can be used to communicate with the proxies.
+   to understand which proxies are associated with one <strike><font color='red'>another,</font></strike> <strong><font color='green'>another</font></strong> and which
+   protocols can be used to communicate with the proxies.
 
    Clients can also benefit from learning about additional information
    associated with the proxy to optimize their proxy usage, such knowing
@@ -120,7 +120,7 @@ Table of Contents
    destinations.
 
    These improvements to client behavior can be achieved through the use
-   of Provisioning Domains.  Provisioning Domains (PvDs) are defined in
+   of Provisioning <strike><font color='red'>Domains.</font></strike> <strong><font color='green'>Domains (PvDs).</font></strong>  Provisioning Domains <strike><font color='red'>(PvDs)</font></strike> are defined in
    [PVD] as consistent sets of network configuration information, which
    can include proxy configuration details (Section 2 of [PVD]).
    Section 4.3 of [PVDDATA] defines a JSON [JSON] format for describing
@@ -131,7 +131,7 @@ Table of Contents
    understand how to use proxies:
 
    1.  A way to fetch PvD Additional Information associated with a known
-       proxy URI (Section 2)
+       proxy URI (Section <strike><font color='red'>2)</font></strike> <strong><font color='green'>2).</font></strong>
 
    2.  A way to list one or more proxy URIs in a PvD, allowing clients
        to learn about other proxy options given a known proxy
@@ -140,7 +140,7 @@ Table of Contents
    3.  A way to define the set of destinations that are accessible
        through the proxy (Section 4).
 
-   Using this mechanism a client can learn that a legacy insecure HTTP
+   Using this <strike><font color='red'>mechanism</font></strike> <strong><font color='green'>mechanism,</font></strong> a client can learn that a legacy insecure HTTP
    proxy that the client is configured with is also accessible using
    HTTPS.  In this way, clients can upgrade to a more secure connection
    to the proxy.
@@ -148,17 +148,19 @@ Table of Contents
 1.1.  Background
 
    Non-standard mechanisms for proxy configuration and discovery have
-   been used historically, some of which are described in the
-   informational [RFC3040]: Proxy Auto Configuration (PAC) files
-   Section 6.2 of [RFC3040] are JavaScript scripts that take URLs as
-   input and provide an output of a proxy configuration to use.  Web
-   Proxy Auto-Discovery Protocol (WPAD) Section 6.4 of [RFC3040] allows
-   networks to advertise proxies to use by advertising a PAC file.  This
-   solution uses the DHCPv4 option 252, reserved for private use
-   according to Section 2.1 of [IANA-DHCP].  These common (but non-
-   standard) mechanisms only support defining proxies by hostname and
-   port, and do not support configuring a full URI template
-   [URITEMPLATE].
+   been used historically, some of which are described in <strike><font color='red'>the
+   informational [RFC3040]:</font></strike> <strong><font color='green'>[RFC3040].</font></strong>
+   Proxy Auto Configuration (PAC) files
+   <strike><font color='red'>Section</font></strike> <strong><font color='green'>(Section</font></strong> 6.2 of <strike><font color='red'>[RFC3040]</font></strike> <strong><font color='green'>[RFC3040])</font></strong> are
+   JavaScript scripts that take URLs as input and provide an output of a
+   proxy configuration to use.  <strong><font color='green'>The</font></strong> Web Proxy Auto-Discovery Protocol
+   (WPAD) <strike><font color='red'>Section</font></strike> <strong><font color='green'>(Section</font></strong> 6.4 of <strike><font color='red'>[RFC3040]</font></strike> <strong><font color='green'>[RFC3040])</font></strong> allows networks to advertise
+   proxies to use by advertising a PAC file.  This solution uses the
+   DHCPv4 option 252, reserved for private use according to Section 2.1
+   of [IANA-DHCP].  These common (but <strike><font color='red'>non-
+   standard)</font></strike> <strong><font color='green'>non-standard)</font></strong> mechanisms only
+   support defining proxies by hostname and port, and do not support
+   configuring a full URI template [URITEMPLATE].
 
    The mechanisms defined in this document are intended to offer a
    standard alternative that works for URI-based proxies and avoids
@@ -173,7 +175,7 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-1.3.  Note to the RFC Editor
+<strike><font color='red'>1.3.  Note to the RFC Editor
 
    RFC EDITOR: Please remove this section before publication.
 
@@ -182,9 +184,9 @@ Table of Contents
    The authors kindly request that the RFC editor makes these instances
    noticeable via appropriate markings in the TXT and PDF renderings of
    this draft.  The term include, but may not be limited to the
-   following: proxies protocol proxy mandatory alpn identifier
+   following: proxies protocol proxy mandatory alpn identifier</font></strike>
 
-2.  Fetching PvD Additional Information for proxies
+2.  Fetching PvD Additional Information for <strike><font color='red'>proxies</font></strike> <strong><font color='green'>Proxies</font></strong>
 
    This document defines a way to fetch PvD Additional Information
    associated with a proxy.  This PvD describes the properties of the
@@ -195,23 +197,24 @@ Table of Contents
    pvd+json" media type as defined in Section 4.1 of [PVDDATA].  The
    fetch MUST use the "https" scheme.
 
-   [PVDDATA] defines the well-known PvD URI, that uses a path of
-   "/.well-known/pvd" and is served on the standard port for HTTP over
-   TLS (HTTPS), port 443.  When a client is provisioned with the
-   hostname of a proxy for which it wants to look up PvD Additional
-   Information, the client SHALL use the well-known PvD URI using the
-   host authority of the proxy.  A client can also be directly
-   configured with a HTTPS URI on which to fetch the PvD Information, in
-   which case the fetch SHALL be made to that configured URI.
+   [PVDDATA] defines the well-known PvD <strike><font color='red'>URI,</font></strike> <strong><font color='green'>URI</font></strong> that uses a path of
+   <strike><font color='red'>"/.well-known/pvd"</font></strike> <strong><font color='green'>"/.well-
+   known/pvd"</font></strong> and is served on the standard port for HTTP over TLS
+   (HTTPS), port 443.  When a client is provisioned with the hostname of
+   a proxy for which it wants to look up PvD Additional Information, the
+   client SHALL use the well-known PvD URI using the host authority of
+   the proxy.  A client can also be directly configured with a HTTPS URI
+   on which to fetch the PvD Information, in which <strike><font color='red'>case</font></strike> <strong><font color='green'>case,</font></strong> the fetch SHALL
+   be made to that configured URI.
 
    A client MAY cache the information it obtained from PvD Additional
    Information, but it MUST discard cached information if:
 
    *  The current time is beyond the "expires" value defined in
-      Section 4.3 of [PVDDATA]
+      Section 4.3 of <strike><font color='red'>[PVDDATA]</font></strike> <strong><font color='green'>[PVDDATA].</font></strong>
 
    *  A new Sequence Number for that PvD is received in a Router
-      Advertisement (RA)
+      Advertisement <strike><font color='red'>(RA)</font></strike> <strong><font color='green'>(RA).</font></strong>
 
    To avoid synchronized queries toward the server hosting the PvD
    Additional Information when an object expires, clients MUST apply a
@@ -247,8 +250,8 @@ Table of Contents
    To allow clients to determine whether PvD Additional Information is
    available for a particular named host (which allows fetching proxy
    information, as well as any other information in the PvD), this
-   document defines a new SvcParamKey in HTTPS and SVCB DNS records
-   defined in [SVCB-DNS].
+   document defines a new SvcParamKey in HTTPS and <strike><font color='red'>SVCB</font></strike> <strong><font color='green'>Service Binding
+   (SVCB)</font></strong> DNS records defined in [SVCB-DNS].
 
    Presence of this SvcParamKey, named pvd, indicates that the host
    supports PvD discovery via the well-known PvD URI defined in
@@ -263,7 +266,7 @@ Table of Contents
 
    can interpret the presence of the pvd key as an indication that it
    MAY perform a PvD fetch from "https://proxy.example.org/.well-known/
-   pvd" using HTTP GET method.
+   pvd" using <strong><font color='green'>the</font></strong> HTTP GET method.
 
    This key is useful for detecting proxy configurations when looking up
    a DNS record for a known proxy name, but is a generic hint that PvD
@@ -277,7 +280,7 @@ Table of Contents
    The pvd SvcParamKey is registered with IANA as described in
    Section 7.5.
 
-3.  Enumerating proxies within a PvD
+3.  Enumerating <strike><font color='red'>proxies within</font></strike> <strong><font color='green'>Proxies Within</font></strong> a PvD
 
    This document defines a new PvD Additional Information key, proxies,
    that is an array of dictionaries, where each dictionary in the array
@@ -292,14 +295,14 @@ Table of Contents
    The proxies may potentially supporting other protocols.
 
    Such cases are useful for informing clients of related proxies as a
-   discovery method, with the assumption that the client already is
-   aware of one proxy.  Many historical methods of configuring a proxy
-   only allow configuring a single hostname and port for the proxy.  A
-   client can attempt to fetch the PvD information from the well-known
-   URI to learn the list of complete URIs that support non-default
-   protocols, such as [CONNECT-UDP] and [CONNECT-IP].
+   discovery <strike><font color='red'>method,</font></strike> <strong><font color='green'>method</font></strong> with the assumption that the client already is aware
+   of one proxy.  Many historical methods of configuring a proxy only
+   allow configuring a single hostname and port for the proxy.  A client
+   can attempt to fetch the PvD information from the well-known URI to
+   learn the list of complete URIs that support non-default protocols,
+   such as [CONNECT-UDP] and [CONNECT-IP].
 
-3.1.  Proxy dictionary keys
+3.1.  Proxy <strike><font color='red'>dictionary keys</font></strike> <strong><font color='green'>Dictionary Keys</font></strong>
 
    This document defines two required keys for the sub-dictionaries in
    the proxies array: protocol and proxy.  There are also optional keys,
@@ -307,7 +310,7 @@ Table of Contents
    defined in future extensions or proprietary key defined in
    Section 3.2) can be added to the dictionary to further define or
    restrict the use of a proxy.  The keys are registered with IANA as
-   described in Section 7.2, with the initial content provided below.
+   described in Section <strike><font color='red'>7.2,</font></strike> <strong><font color='green'>7.2</font></strong> with the initial content provided below.
 
    +==========+=========+=============+=======+===========================+
    |JSON Key  |Optional/|Description  |Type   |Example                    |
@@ -361,13 +364,13 @@ Table of Contents
 
        Table 1: Initial Proxy Information PvD Keys Registry Contents
 
-   The values for the protocol key are defined in the proxy protocol
-   registry (Section 7.3), with the initial contents provided below.
-   For consistency, any new proxy types that use HTTP Upgrade Tokens
-   (and use the :protocol pseudo-header) MUST define the protocol value
-   to match the Upgrade Token / :protocol value.  Extensions to proxy
-   types that use the same HTTP Upgrade Tokens ought to be covered by
-   the same protocol value; if there are properties specific to an
+   The values for the protocol key are defined in the <strike><font color='red'>proxy protocol</font></strike> <strong><font color='green'>"Proxy Protocol
+   PvD Values"</font></strong> registry (Section <strike><font color='red'>7.3),</font></strike> <strong><font color='green'>7.3)</font></strong> with the initial contents provided
+   below.  For consistency, any new proxy types that use HTTP Upgrade
+   Tokens (and use the :protocol pseudo-header) MUST define the protocol
+   value to match the Upgrade Token / :protocol value.  Extensions to
+   proxy types that use the same HTTP Upgrade Tokens ought to be covered
+   by the same protocol value; if there are properties specific to an
    extension, the extensions can either define new optional keys or rely
    on negotiation within the protocol to discover support.
 
@@ -415,7 +418,9 @@ Table of Contents
    *  registered in an IANA registry, defined in Section 7.2 and marked
       as optional,
 
-   *  or proprietary, as defined in Section 3.2
+   <strike><font color='red'>*</font></strike> or
+
+   <strong><font color='green'>*</font></strong>  proprietary, as defined in Section <strike><font color='red'>3.2</font></strike> <strong><font color='green'>3.2.</font></strong>
 
    The mandatory array MUST NOT include any entries that are not present
    in the sub-dictionary.
@@ -430,7 +435,7 @@ Table of Contents
    defined in Section 4.  The string value is an arbitrary non-empty
    JSON string using UTF-8 encoding as discussed in Section 8.1 of
    [JSON].  Characters that need to be escaped in JSON strings per
-   Section 7 of [JSON] are NOT RECOMMENDED as they can lead to
+   Section 7 of [JSON] are NOT <strike><font color='red'>RECOMMENDED</font></strike> <strong><font color='green'>RECOMMENDED,</font></strong> as they can lead to
    difficulties in string comparisons as discussed in Section 8.3 of
    [JSON].  Identifier values MAY be duplicated across different proxy
    dictionaries in the proxies array.  References to a particular
@@ -441,7 +446,7 @@ Table of Contents
    accept traffic based on matching rules in the proxy-match array and
    MUST NOT be used if they are not included in the proxy-match array.
 
-3.2.  Proprietary keys in proxy configurations
+3.2.  Proprietary <strike><font color='red'>keys</font></strike> <strong><font color='green'>Keys</font></strong> in <strike><font color='red'>proxy configurations</font></strike> <strong><font color='green'>Proxy Configurations</font></strong>
 
    Implementations MAY include proprietary or vendor-specific keys in
    the sub-dictionaries of the proxies array to convey additional proxy
@@ -449,10 +454,10 @@ Table of Contents
 
    A proprietary key MUST contain at least one underscore character
    ("_") as a delimiter in the string, with characters both before and
-   after the underscore.  The right-most underscore serves as a
-   separator between a vendor-specific namespace and the key name; i.e.,
-   the string to the right of the right-most underscore is the key name
-   and the string to the left of the right-most underscore specifies the
+   after the underscore.  The <strike><font color='red'>right-most</font></strike> <strong><font color='green'>rightmost</font></strong> underscore serves as a separator
+   between a vendor-specific namespace and the key name; i.e., the
+   string to the right of the <strike><font color='red'>right-most</font></strike> <strong><font color='green'>rightmost</font></strong> underscore is the key name and
+   the string to the left of the <strike><font color='red'>right-most</font></strike> <strong><font color='green'>rightmost</font></strong> underscore specifies the
    vendor-specific namespace.  For example, "example_tech_authmode"
    could be a proprietary key indicating an authentication mode defined
    by a vendor named "Example Tech".
@@ -464,8 +469,9 @@ Table of Contents
 
 3.3.  Example
 
-   Given a known HTTP CONNECT proxy FQDN, "proxy.example.org", a client
-   could request PvD Additional Information with the following request:
+   Given a known HTTP CONNECT proxy <strike><font color='red'>FQDN,</font></strike> <strong><font color='green'>Fully Qualified Domain Name (FQDN),</font></strong>
+   "proxy.example.org", a client could request PvD Additional
+   Information with the following request:
 
    :method = GET
    :scheme = https
@@ -505,8 +511,10 @@ content-length = 322
    Destination accessibility information is used when only a subset of
    destinations is reachable through a proxy.  Destination restrictions
    are often used in VPN tunnel configurations such as split DNS in
-   IKEv2 [IKEV2SPLIT], and in other proxy configuration mechanisms like
-   PAC files (see Section 1.1).
+   <strike><font color='red'>IKEv2</font></strike>
+   <strong><font color='green'>Internet Key Exchange Protocol Version 2 (IKEv2)</font></strong> [IKEV2SPLIT], and in
+   other proxy configuration mechanisms like PAC files (see
+   Section 1.1).
 
    PvD Additional Information can be used to indicate that a set of
    proxies only allows access to a limited set of destinations.
@@ -514,11 +522,11 @@ content-length = 322
    To support determining which traffic is supported by different
    proxies, this document defines a new PvD Additional Information key
    proxy-match.  This key has a value that is an array of dictionaries,
-   where each subdictionary describes a rule for matching traffic to one
-   or more proxies, or excluding the traffic from all proxies described
-   in the PvD.  These subdictionaries are referred to as "destination
-   rules", since they define rules about which destinations can be
-   accessed for a particular proxy or set of proxies.
+   where each <strike><font color='red'>subdictionary</font></strike> <strong><font color='green'>sub-dictionary</font></strong> describes a rule for matching traffic to
+   one or more proxies, or excluding the traffic from all proxies
+   described in the PvD.  These <strike><font color='red'>subdictionaries</font></strike> <strong><font color='green'>sub-dictionaries</font></strong> are referred to as
+   "destination rules", since they define rules about which destinations
+   can be accessed for a particular proxy or set of proxies.
 
 4.1.  Destination Rule Keys
 
@@ -540,7 +548,7 @@ content-length = 322
    in their entirety.
 
    Destination rule keys are registered with IANA as defined in
-   Section 7.4, with the initial content provided below.
+   Section <strike><font color='red'>7.4,</font></strike> <strong><font color='green'>7.4</font></strong> with the initial content provided below.
 
    +=======+========+=============+=======+===========================+
    |JSON   |Optional| Description |Type   | Example                   |
@@ -583,9 +591,9 @@ content-length = 322
    to match multiple levels of subdomains.  For example, "*.example.com"
    matches "internal.example.com" as well as "www.public.example.com".
    Entries that include the wildcard prefix also match an FQDN that only
-   contains the string after the prefix, with no subdomain.  So, an
-   entry "*.example.com" in the domains array of a proxy-match rule
-   would match the FQDN "example.com".  This is done to prevent commonly
+   contains the string after the <strike><font color='red'>prefix,</font></strike> <strong><font color='green'>prefix</font></strong> with no subdomain.  So, an entry
+   "*.example.com" in the domains array of a proxy-match rule would
+   match the FQDN "example.com".  This is done to prevent commonly
    needing to include both "*.example.com" and "example.com" in the
    domains array of a proxy-match rule.  Matches are performed against
    absolute domain names, independent of the client's configured DNS
@@ -594,34 +602,35 @@ content-length = 322
    trailing dot ("."); it does not affect the matching logic.
 
    The subnets array includes IPv4 and IPv6 address literals, as well as
-   IPv4 address subnets represented using CIDR notation [CIDR] and IPv6
-   address prefixes Section 2.3 of [IPv6-ADDR].  Subnet-based
-   destination information can apply to cases where applications are
-   communicating directly with an IP address (without having resolved a
-   DNS name) as well as cases where an application resolved a DNS name
-   to a set of IP addresses.  Note that if destination rules include an
-   empty proxies array (indicating that no proxy is applicable for this
-   subnet), an application can only reliably follow this destination
-   rule if it resolves DNS names prior to proxying.
+   IPv4 address subnets represented using <strike><font color='red'>CIDR</font></strike> <strong><font color='green'>Classless Inter-Domain Routing
+   (CIDR)</font></strong> notation [CIDR] and IPv6 address prefixes <strike><font color='red'>Section</font></strike> <strong><font color='green'>(Section</font></strong> 2.3 of <strike><font color='red'>[IPv6-ADDR].</font></strike>
+   <strong><font color='green'>[IPv6-ADDR]).</font></strong>  Subnet-based destination information can apply to
+   cases where applications are communicating directly with an IP
+   address (without having resolved a DNS name) as well as cases where
+   an application resolved a DNS name to a set of IP addresses.  Note
+   that if destination rules include an empty proxies array (indicating
+   that no proxy is applicable for this subnet), an application can only
+   reliably follow this destination rule if it resolves DNS names prior
+   to proxying.
 
    The ports array includes specific ports (used for matching TCP and/or
    UDP ports), as well as ranges of ports written with a low port value
    and a high port value, with a - in between.  For example, "1024-2048"
    matches all ports from 1024 to 2048, including port 1024 and 2048.
-   If ports key is not present, all ports are assumed to match.  The
+   If <strong><font color='green'>the</font></strong> ports key is not present, all ports are assumed to match.  The
    array may contain individual port numbers (such as "80") or inclusive
    ranges of ports.
 
 4.2.  Using Destination Rules
 
    The destination rules can be used to determine which traffic can be
-   sent through proxies, and which specific set of proxies to use for
-   any particular connection.  By evaluating the rules in order, a
+   sent through <strike><font color='red'>proxies,</font></strike> <strong><font color='green'>proxies</font></strong> and which specific set of proxies to use for any
+   particular connection.  By evaluating the rules in order, a
    consistent behavior for usage can be achieved.
 
    Rules in the proxy-match array are provided in order of priority,
    such that a client can evaluate the rules from the first in the array
-   to the last in the array, and attempt using the matching proxy or
+   to the last in the <strike><font color='red'>array,</font></strike> <strong><font color='green'>array</font></strong> and attempt using the matching proxy or
    proxies from the earliest matching rule first.  If earliest matching
    rule has empty array of proxies, a client MUST NOT send matching
    traffic to any proxy defined in this PvD.
@@ -632,18 +641,18 @@ content-length = 322
    to match at least one of the entries in the domains array and one of
    the entries in the ports array.  In addition, a destination rule is
    considered a match only if at least one of the associated proxy
-   identifiers is supported by the client(client understand all
+   identifiers is supported by the <strike><font color='red'>client(client understand</font></strike> <strong><font color='green'>client (the client understands</font></strong> all
    mandatory keys in the protocol description) and supports the protocol
    required by the connection attempt (for example, connect-udp for UDP
    traffic).  If no listed proxy identifier is applicable, the rule MUST
-   be treated as not matching, and the client continues evaluation of
+   be treated as not <strike><font color='red'>matching,</font></strike> <strong><font color='green'>matching</font></strong> and the client continues evaluation of
    subsequent rules.
 
    A matched rule will then either point to one or more proxy identifier
    values, which correspond to proxies defined in the array from
-   Section 3, or instructs the client to not send the matching traffic
-   to any proxy.  If a matching rule contains more than one identifier,
-   the client MUST treat the array as an ordered list, where the first
+   Section 3, or <strike><font color='red'>instructs</font></strike> <strong><font color='green'>instruct</font></strong> the client to not send the matching traffic to
+   any proxy.  If a matching rule contains more than one identifier, the
+   client MUST treat the array as an ordered list, where the first
    identifier is the most preferred.  Multiple proxy dictionaries can
    contain the same identifier value.  In this case, the client can
    choose any of the proxies; however, the client ought to prefer using
@@ -680,7 +689,7 @@ content-length = 322
 4.4.  Examples
 
    In the following example, two proxies are defined with a common
-   identifier ("default_proxy"), with a single destination rule for
+   identifier <strike><font color='red'>("default_proxy"),</font></strike> <strong><font color='green'>("default_proxy")</font></strong> with a single destination rule for
    "*.internal.example.org".
 
    {
@@ -711,7 +720,8 @@ content-length = 322
    "default_proxy" identifier for accessing TCP hosts that fall within
    the "*.internal.example.org" zone.  This would include the hostnames
    "internal.example.org", "foo.internal.example.org",
-   "www.bar.internal.example.org" and all other hosts within
+   <strike><font color='red'>"www.bar.internal.example.org"</font></strike>
+   <strong><font color='green'>"www.bar.internal.example.org",</font></strong> and all other hosts within
    "internal.example.org".  The client will use the same proxy for the
    following requests to hosts falling into the "*.internal.example.org"
    zone to increase connection reuse and make use of the connection
@@ -719,7 +729,8 @@ content-length = 322
    configuration to hosts outside of the "*.internal.example.org" zone.
 
    In the next example, two proxies are defined with a distinct
-   identifier, and there are three destination rules:
+   <strike><font color='red'>identifier,</font></strike>
+   <strong><font color='green'>identifier</font></strong> and there are three destination rules:
 
    {
      "identifier": "proxy.example.org.",
@@ -756,9 +767,9 @@ content-length = 322
 
    In this case, the client would use "special-proxy.example.org:80" for
    any TCP traffic that matches "*.special.example.org" destined to
-   ports 80, 443 or any port between 49152 and 65535.  The client would
+   ports 80, <strike><font color='red'>443</font></strike> <strong><font color='green'>443,</font></strong> or any port between 49152 and 65535.  The client would
    not use any of the defined proxies for access to "no-
-   proxy.internal.example.org".  And finally, the client would use
+   proxy.internal.example.org".  <strike><font color='red'>And finally,</font></strike>  <strong><font color='green'>Finally,</font></strong> the client would use
    "proxy.example.org:80" to access any other TCP traffic that matches
    "*.internal.example.org".
 
@@ -798,19 +809,19 @@ content-length = 322
    The client would use proxies in the following way:
 
    *  Traffic not destined to hosts within the "*.internal.example.org"
-      zone is not sent to any proxy defined in this configuration
+      zone is not sent to any proxy defined in this <strike><font color='red'>configuration</font></strike> <strong><font color='green'>configuration.</font></strong>
 
    *  TCP traffic destined to hosts within the "*.internal.example.org"
       zone is sent either to the proxy with "http-connect" protocol or
-      to the proxy with "connect-ip" protocol
+      to the proxy with "connect-ip" <strike><font color='red'>protocol</font></strike> <strong><font color='green'>protocol.</font></strong>
 
    *  UDP traffic destined to hosts within the "*.internal.example.org"
       zone is sent either to the proxy with "connect-udp" protocol or to
-      the proxy with "connect-ip" protocol
+      the proxy with "connect-ip" <strike><font color='red'>protocol</font></strike> <strong><font color='green'>protocol.</font></strong>
 
    *  Traffic other than TCP and UDP destined to hosts within the
       "*.internal.example.org" zone is sent to the proxy with "connect-
-      ip" protocol
+      ip" <strike><font color='red'>protocol</font></strike> <strong><font color='green'>protocol.</font></strong>
 
    The following example provides a configuration of proxies to be used
    by default with a set with exceptions to bypass:
@@ -847,14 +858,15 @@ content-length = 322
    }
 
    In this case, the client will not forward TCP traffic that is
-   destined to hosts matching "*.intranet.example.org", 192.0.2.0/24 or
-   2001:db8::/32, through the proxies.  Due to the order in "proxies"
+   destined to hosts matching "*.intranet.example.org", <strike><font color='red'>192.0.2.0/24</font></strike> <strong><font color='green'>192.0.2.0/24,</font></strong> or
+   <strike><font color='red'>2001:db8::/32,</font></strike>
+   <strong><font color='green'>2001:db8::/32</font></strong> through the proxies.  Due to the order in "proxies"
    array in the last rule of "proxy-match", the client would prefer
-   "proxy.example.org:80" over "backup.example.org:80"
+   "proxy.example.org:80" over <strike><font color='red'>"backup.example.org:80"</font></strike> <strong><font color='green'>"backup.example.org:80".</font></strong>
 
    The following example provides a configuration of proxies that enable
    setting one proxy for "example.org" and a different proxy for all of
-   its subdomains, i.e. "*.example.org":
+   its subdomains, <strike><font color='red'>i.e.</font></strike> <strong><font color='green'>i.e.,</font></strong> "*.example.org":
 
    {
      "identifier": "proxy.example.org.",
@@ -886,10 +898,10 @@ content-length = 322
 
    In this case, the client will forward TCP traffic that is destined to
    host "example.org" to "proxy1.example.org:80" and all traffic to the
-   subdomains of "example.org", i.e. "*.example.org" will be forwarded
+   subdomains of "example.org", <strike><font color='red'>i.e.</font></strike> <strong><font color='green'>i.e.,</font></strong> "*.example.org" will be forwarded
    to "proxy2.example.org:80".
 
-5.  Discovering proxies from network PvDs
+5.  Discovering <strike><font color='red'>proxies from network</font></strike> <strong><font color='green'>Proxies From Network</font></strong> PvDs
 
    [PVDDATA] defines how PvD Additional Information is discovered based
    on network advertisements using Router Advertisements [RFC4861].
@@ -916,12 +928,12 @@ content-length = 322
    "upgrade" a configuration for a cleartext HTTP/1.1 or SOCKS proxy
    into a configuration that uses TLS to communication to the proxy.
    This upgrade can add protection to the proxied traffic so it is less
-   observable by entities along the network path; however it does not
+   observable by entities along the network path; <strike><font color='red'>however</font></strike> <strong><font color='green'>however,</font></strong> it does not
    prevent the proxy itself from observing the traffic being proxied.
 
    Configuration advertised via PvD Additional Information, such as DNS
    zones or associated proxies, can only be safely used when fetched
-   over a secure TLS-protected connection, and the client has validated
+   over a secure TLS-protected <strike><font color='red'>connection,</font></strike> <strong><font color='green'>connection</font></strong> and the client has validated
    that the hostname of the proxy, the identifier of the PvD, and the
    validated hostname identity on the certificate all match.
 
@@ -940,7 +952,8 @@ content-length = 322
    they will send through a proxy.  Clients that are configured by
    policy to only send a particular set of traffic through a particular
    proxy can learn about rules that will cause them to send more
-   narrowly-scoped traffic, but MUST NOT send traffic that would go
+   <strike><font color='red'>narrowly-scoped</font></strike>
+   <strong><font color='green'>narrowly scoped</font></strong> traffic, but MUST NOT send traffic that would go
    beyond what is allowed by local policy.
 
    As described in Section 5, proxy configuration discovered based on
@@ -949,7 +962,7 @@ content-length = 322
 
 7.  IANA Considerations
 
-7.1.  New PvD Additional Information key
+7.1.  New PvD Additional Information <strike><font color='red'>key</font></strike> <strong><font color='green'>Key</font></strong>
 
    This document registers two new keys in the "Additional Information
    PvD Keys" registry [IANA_PVD].
@@ -958,7 +971,7 @@ content-length = 322
 
    JSON Key: proxies
 
-   Description: Array of proxy dictionaries associated with this PvD
+   Description: Array of proxy dictionaries associated with this <strike><font color='red'>PvD</font></strike> <strong><font color='green'>PvD.</font></strong>
 
    Type: Array of dictionaries
 
@@ -992,7 +1005,8 @@ content-length = 322
 7.2.  New PvD Proxy Information Registry
 
    IANA is requested to create a new registry "Proxy Information PvD
-   Keys", within the "Provisioning Domains (PvDs)" registry page.  This
+   <strike><font color='red'>Keys",</font></strike>
+   <strong><font color='green'>Keys"</font></strong> within the "Provisioning Domains (PvDs)" registry page.  This
    new registry reserves JSON keys for use in sub-dictionaries under the
    proxies key.  The initial contents of this registry are given in
    Table 1.
@@ -1008,10 +1022,11 @@ content-length = 322
 7.3.  New PvD Proxy Protocol Registry
 
    IANA is requested to create a new registry "Proxy Protocol PvD
-   Values", within the "Provisioning Domains (PvDs)" registry page.
-   This new registry reserves JSON values for the protocol key in
-   proxies sub-dictionaries.  The initial contents of this registry are
-   given in Table 2.
+   <strike><font color='red'>Values",</font></strike>
+   <strong><font color='green'>Values"</font></strong> within the "Provisioning Domains (PvDs)" registry page.  This
+   new registry reserves JSON values for the protocol key in proxies
+   sub-dictionaries.  The initial contents of this registry are given in
+   Table 2.
 
    New assignments in the "Proxy Protocol PvD Values" registry will be
    administered by IANA through Expert Review [RFC8126].  Experts are
@@ -1021,7 +1036,7 @@ content-length = 322
 7.4.  New PvD Proxy Destination Rule Registry
 
    IANA is requested to create a new registry "Proxy Destination Rule
-   PvD Keys", within the "Provisioning Domains (PvDs)" registry page.
+   PvD <strike><font color='red'>Keys",</font></strike> <strong><font color='green'>Keys"</font></strong> within the "Provisioning Domains (PvDs)" registry page.
    This new registry reserves JSON keys for use in sub-dictionaries
    under the proxy-match key.  The initial contents of this registry are
    given in Table 3.
@@ -1029,7 +1044,7 @@ content-length = 322
    New assignments in the "Proxy Destination Rule PvD Keys" registry
    will be administered by IANA through Expert Review [RFC8126].
    Experts are requested to ensure that defined keys do not overlap in
-   names or semantics, and do not contain an underscore character ("_")
+   names or <strike><font color='red'>semantics,</font></strike> <strong><font color='green'>semantics</font></strong> and do not contain an underscore character ("_")
    in the names (since underscores are reserved for vendor-specific
    keys).
 
@@ -1046,7 +1061,7 @@ content-length = 322
 
    *  Change Controller: IETF
 
-   *  Reference: this document, Section 2.1
+   *  Reference: <strike><font color='red'>this document,</font></strike> <strong><font color='green'>RFC XXXXX,</font></strong> Section 2.1
 
 8.  References
 
@@ -1125,10 +1140,10 @@ content-length = 322
               Schwartz, B. M., "Template-Driven HTTP CONNECT Proxying
               for TCP", Work in Progress, Internet-Draft, draft-ietf-
               <strike><font color='red'>httpbis-connect-tcp-11, 20 March</font></strike>
-              <strong><font color='green'>httpbis-connect-tcp-17, 29 October</font></strong> 2026,
+              <strong><font color='green'>httpbis-connect-tcp-18, 2 November</font></strong> 2026,
               &lt;https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
               <strike><font color='red'>connect-tcp-11&gt;.</font></strike>
-              <strong><font color='green'>connect-tcp-17&gt;.</font></strong>
+              <strong><font color='green'>connect-tcp-18&gt;.</font></strong>
 
    [CONNECT-UDP]
               Schinazi, D., "Proxying UDP in HTTP", RFC 9298,
