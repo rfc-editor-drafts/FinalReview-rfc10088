@@ -3,7 +3,7 @@
 
 
 Internet Engineering Task Force (IETF)                          T. Pauly
-Request for Comments: 0                                      Apple, Inc.
+Request for Comments: 10088                                  Apple, Inc.
 Category: Standards Track                                  D. Damjanovic
 ISSN: 2070-1721                                                Microsoft
                                                             Y. Rosomakho
@@ -32,7 +32,7 @@ Status of This Memo
 
    Information about the current status of this document, any errata,
    and how to provide feedback on it may be obtained at
-   https://www.rfc-editor.org/info/rfc0.
+   https://www.rfc-editor.org/info/rfc10088.
 
 Copyright Notice
 
@@ -135,7 +135,7 @@ Table of Contents
    proxy configuration to use.  The Web Proxy Auto-Discovery Protocol
    (WPAD) (Section 6.4 of [RFC3040]) allows networks to advertise
    proxies to use by advertising a PAC file.  This solution uses the
-   DHCPv4 option 252, reserved for private use according to Section 2.1
+   DHCPv4 option 252, reserved for Private Use according to Section 2.1
    of [IANA-DHCP].  These common (but non-standard) mechanisms only
    support defining proxies by hostname and port, and do not support
    configuring a full URI template [URITEMPLATE].
@@ -278,57 +278,57 @@ Table of Contents
    restrict the use of a proxy.  The keys are registered with IANA as
    described in Section 7.2 with the initial content provided below.
 
-   +==========+=========+=============+=======+===========================+
-   |JSON Key  |Optional/|Description  |Type   |Example                    |
-   |          |Required |             |       |                           |
-   +==========+=========+=============+=======+===========================+
-   |protocol  |required |The protocol |String |"connect-udp"              |
-   |          |         |used to      |       |                           |
-   |          |         |communicate  |       |                           |
-   |          |         |with the     |       |                           |
-   |          |         |proxy        |       |                           |
-   +----------+---------+-------------+-------+---------------------------+
-   |proxy     |required |String       |String |"https://example.org:4443/ |
-   |          |         |containing   |       |masque/                    |
-   |          |         |the URI      |       |{?target_host,target_port}"|
-   |          |         |template or  |       |                           |
-   |          |         |host and port|       |                           |
-   |          |         |of the proxy,|       |                           |
-   |          |         |depending on |       |                           |
-   |          |         |the format   |       |                           |
-   |          |         |defined by   |       |                           |
-   |          |         |the protocol |       |                           |
-   +----------+---------+-------------+-------+---------------------------+
-   |mandatory |optional |An array of  |Array  |["example_key"]            |
-   |          |         |optional keys|of     |                           |
-   |          |         |that client  |Strings|                           |
-   |          |         |must         |       |                           |
-   |          |         |understand   |       |                           |
-   |          |         |and process  |       |                           |
-   |          |         |to use this  |       |                           |
-   |          |         |proxy        |       |                           |
-   +----------+---------+-------------+-------+---------------------------+
-   |alpn      |optional |An array of  |Array  |["h3","h2"]                |
-   |          |         |Application- |of     |                           |
-   |          |         |Layer        |Strings|                           |
-   |          |         |Protocol     |       |                           |
-   |          |         |Negotiation  |       |                           |
-   |          |         |protocol     |       |                           |
-   |          |         |identifiers  |       |                           |
-   +----------+---------+-------------+-------+---------------------------+
-   |identifier|optional |A string used|String |"udp-proxy"                |
-   |          |         |to refer to  |       |                           |
-   |          |         |the proxy,   |       |                           |
-   |          |         |which can be |       |                           |
-   |          |         |referenced by|       |                           |
-   |          |         |other        |       |                           |
-   |          |         |dictionaries,|       |                           |
-   |          |         |such as      |       |                           |
-   |          |         |entries in   |       |                           |
-   |          |         |proxy-match  |       |                           |
-   +----------+---------+-------------+-------+---------------------------+
+   +==========+=========+=============+=======+=======================+
+   |JSON Key  |Optional/|Description  |Type   | Example               |
+   |          |Required |             |       |                       |
+   +==========+=========+=============+=======+=======================+
+   |protocol  |required |The protocol |String | "connect-udp"         |
+   |          |         |used to      |       |                       |
+   |          |         |communicate  |       |                       |
+   |          |         |with the     |       |                       |
+   |          |         |proxy        |       |                       |
+   +----------+---------+-------------+-------+-----------------------+
+   |proxy     |required |String       |String | "https://             |
+   |          |         |containing   |       | example.org:4443/     |
+   |          |         |the URI      |       | masque/{?target_host, |
+   |          |         |template or  |       | target_port}"         |
+   |          |         |host and port|       |                       |
+   |          |         |of the proxy,|       |                       |
+   |          |         |depending on |       |                       |
+   |          |         |the format   |       |                       |
+   |          |         |defined by   |       |                       |
+   |          |         |the protocol |       |                       |
+   +----------+---------+-------------+-------+-----------------------+
+   |mandatory |optional |An array of  |Array  | ["example_key"]       |
+   |          |         |optional keys|of     |                       |
+   |          |         |that client  |Strings|                       |
+   |          |         |must         |       |                       |
+   |          |         |understand   |       |                       |
+   |          |         |and process  |       |                       |
+   |          |         |to use this  |       |                       |
+   |          |         |proxy        |       |                       |
+   +----------+---------+-------------+-------+-----------------------+
+   |alpn      |optional |An array of  |Array  | ["h3","h2"]           |
+   |          |         |Application- |of     |                       |
+   |          |         |Layer        |Strings|                       |
+   |          |         |Protocol     |       |                       |
+   |          |         |Negotiation  |       |                       |
+   |          |         |protocol     |       |                       |
+   |          |         |identifiers  |       |                       |
+   +----------+---------+-------------+-------+-----------------------+
+   |identifier|optional |A string used|String | "udp-proxy"           |
+   |          |         |to refer to  |       |                       |
+   |          |         |the proxy,   |       |                       |
+   |          |         |which can be |       |                       |
+   |          |         |referenced by|       |                       |
+   |          |         |other        |       |                       |
+   |          |         |dictionaries,|       |                       |
+   |          |         |such as      |       |                       |
+   |          |         |entries in   |       |                       |
+   |          |         |proxy-match  |       |                       |
+   +----------+---------+-------------+-------+-----------------------+
 
-       Table 1: Initial Proxy Information PvD Keys Registry Contents
+      Table 1: Initial Proxy Information PvD Keys Registry Contents
 
    The values for the protocol key are defined in the "Proxy Protocol
    PvD Values" registry (Section 7.3) with the initial contents provided
@@ -446,25 +446,26 @@ Table of Contents
    If the proxy has a PvD definition for this FQDN, it would return the
    following response to indicate a PvD that has two related proxy URIs.
 
-:status = 200
-content-type = application/pvd+json
-content-length = 322
+   :status = 200
+   content-type = application/pvd+json
+   content-length = 322
 
-{
-  "identifier": "proxy.example.org.",
-  "expires": "2026-06-23T06:00:00Z",
-  "prefixes": [],
-  "proxies": [
-    {
-      "protocol": "http-connect",
-      "proxy": "proxy.example.org:80"
-    },
-    {
-      "protocol": "connect-udp",
-      "proxy": "https://proxy.example.org/masque{?target_host,target_port}"
-    }
-  ]
-}
+   {
+     "identifier": "proxy.example.org.",
+     "expires": "2026-06-23T06:00:00Z",
+     "prefixes": [],
+     "proxies": [
+       {
+         "protocol": "http-connect",
+         "proxy": "proxy.example.org:80"
+       },
+       {
+         "protocol": "connect-udp",
+         "proxy":
+               "https://proxy.example.org/masque{?target_host,target_port}"
+       }
+     ]
+   }
 
    From this response, the client would learn the URI template of the
    proxy that supports UDP using [CONNECT-UDP], at
@@ -513,37 +514,37 @@ content-length = 322
    Destination rule keys are registered with IANA as defined in
    Section 7.4 with the initial content provided below.
 
-   +=======+========+=============+=======+===========================+
-   |JSON   |Optional| Description |Type   | Example                   |
-   |Key    |        |             |       |                           |
-   +=======+========+=============+=======+===========================+
-   |proxies|No      | An array of |Array  | ["tcp-proxy", "udp-       |
-   |       |        | strings     |of     | proxy"]                   |
-   |       |        | that match  |Strings|                           |
-   |       |        | identifier  |       |                           |
-   |       |        | values from |       |                           |
-   |       |        | the top-    |       |                           |
-   |       |        | level       |       |                           |
-   |       |        | proxies     |       |                           |
-   |       |        | array       |       |                           |
-   +-------+--------+-------------+-------+---------------------------+
-   |domains|Yes     | An array of |Array  | ["www.example.com",       |
-   |       |        | FQDNs and   |of     | "*.internal.example.com"] |
-   |       |        | wildcard    |Strings|                           |
-   |       |        | DNS domains |       |                           |
-   +-------+--------+-------------+-------+---------------------------+
-   |subnets|Yes     | An array of |Array  | ["2001:db8::1",           |
-   |       |        | IPv4 and    |of     | "192.0.2.0/24"]           |
-   |       |        | IPv6        |Strings|                           |
-   |       |        | addresses   |       |                           |
-   |       |        | and subnets |       |                           |
-   +-------+--------+-------------+-------+---------------------------+
-   |ports  |Yes     | An array of |Array  | ["80", "443",             |
-   |       |        | TCP and UDP |of     | "1024-65535"]             |
-   |       |        | port ranges |Strings|                           |
-   +-------+--------+-------------+-------+---------------------------+
+   +=======+=========+=============+=======+===========================+
+   |JSON   |Optional/| Description |Type   | Example                   |
+   |Key    |Required |             |       |                           |
+   +=======+=========+=============+=======+===========================+
+   |proxies|No       | An array of |Array  | ["tcp-proxy", "udp-       |
+   |       |         | strings     |of     | proxy"]                   |
+   |       |         | that match  |Strings|                           |
+   |       |         | identifier  |       |                           |
+   |       |         | values from |       |                           |
+   |       |         | the top-    |       |                           |
+   |       |         | level       |       |                           |
+   |       |         | proxies     |       |                           |
+   |       |         | array       |       |                           |
+   +-------+---------+-------------+-------+---------------------------+
+   |domains|Yes      | An array of |Array  | ["www.example.com",       |
+   |       |         | FQDNs and   |of     | "*.internal.example.com"] |
+   |       |         | wildcard    |Strings|                           |
+   |       |         | DNS domains |       |                           |
+   +-------+---------+-------------+-------+---------------------------+
+   |subnets|Yes      | An array of |Array  | ["2001:db8::1",           |
+   |       |         | IPv4 and    |of     | "192.0.2.0/24"]           |
+   |       |         | IPv6        |Strings|                           |
+   |       |         | addresses   |       |                           |
+   |       |         | and subnets |       |                           |
+   +-------+---------+-------------+-------+---------------------------+
+   |ports  |Yes      | An array of |Array  | ["80", "443",             |
+   |       |         | TCP and UDP |of     | "1024-65535"]             |
+   |       |         | port ranges |Strings|                           |
+   +-------+---------+-------------+-------+---------------------------+
 
-      Table 3: Initial PvD Proxy Destination Rule Registry Contents
+   Table 3: Initial Contents of Proxy Destination Rule PvD Keys Registry
 
    The domains array includes specific FQDNs and zones that are either
    accessible using specific proxy (for rules with non-empty proxies
@@ -738,34 +739,35 @@ content-length = 322
    identifier ("default-proxy"), but use separate protocols constraining
    the traffic that they can process.
 
-{
-  "identifier": "proxy.example.org.",
-  "expires": "2026-06-23T06:00:00Z",
-  "prefixes": [],
-  "proxies": [
-    {
-      "protocol": "http-connect",
-      "proxy": "proxy.example.org:80",
-      "identifier": "default_proxy"
-    },
-    {
-      "protocol": "connect-udp",
-      "proxy": "https://proxy.example.org/masque/udp/{target_host},{target_port}",
-      "identifier": "default_proxy"
-    },
-    {
-      "protocol": "connect-ip",
-      "proxy": "https://proxy.example.org/masque/ip{?target,ipproto}",
-      "identifier": "default_proxy"
-    }
-  ],
-  "proxy-match": [
-    {
-      "domains": [ "*.internal.example.org" ],
-      "proxies": [ "default_proxy" ]
-    }
-  ]
-}
+   {
+     "identifier": "proxy.example.org.",
+     "expires": "2026-06-23T06:00:00Z",
+     "prefixes": [],
+     "proxies": [
+       {
+         "protocol": "http-connect",
+         "proxy": "proxy.example.org:80",
+         "identifier": "default_proxy"
+       },
+       {
+         "protocol": "connect-udp",
+         "proxy":
+               "https://proxy.example.org/masque/udp/{target_host},{target_port}",
+         "identifier": "default_proxy"
+       },
+       {
+         "protocol": "connect-ip",
+         "proxy": "https://proxy.example.org/masque/ip{?target,ipproto}",
+         "identifier": "default_proxy"
+       }
+     ],
+     "proxy-match": [
+       {
+         "domains": [ "*.internal.example.org" ],
+         "proxies": [ "default_proxy" ]
+       }
+     ]
+   }
 
    The client would use proxies in the following way:
 
@@ -936,19 +938,19 @@ content-length = 322
 
    Example:
 
- [
-  {
-   "protocol": "connect-udp",
-   "proxy": "https://proxy.example.org/masque{?target_host,target_port}"
-  }
- ]
+   [
+    {
+     "protocol": "connect-udp",
+     "proxy": "https://proxy.example.org/masque{?target_host,target_port}"
+    }
+   ]
 
 7.1.2.  proxy-match Key
 
    JSON Key: proxy-match
 
    Description: Array of proxy match rules, as dictionaries, associated
-   with entries in the proxies array.
+   with entries in the proxies array
 
    Type: Array of dictionaries
 
@@ -963,26 +965,24 @@ content-length = 322
 
 7.2.  New PvD Proxy Information Registry
 
-   IANA is requested to create a new registry "Proxy Information PvD
-   Keys" within the "Provisioning Domains (PvDs)" registry page.  This
-   new registry reserves JSON keys for use in sub-dictionaries under the
-   proxies key.  The initial contents of this registry are given in
-   Table 1.
+   IANA has created a new registry "Proxy Information PvD Keys" within
+   the "Provisioning Domains (PvDs)" registry page.  This new registry
+   reserves JSON keys for use in sub-dictionaries under the proxies key.
+   The initial contents of this registry are given in Table 1.
 
    New assignments in the "Proxy Information PvD Keys" registry will be
    administered by IANA through Expert Review [RFC8126].  Experts are
    requested to ensure that defined keys do not overlap in names or
    semantics, do not contain an underscore character ("_") in the names
    (since underscores are reserved for vendor-specific keys), and have
-   clear format definitions.  The reference and notes fields may be
-   empty.
+   clear format definitions.  The reference field may be empty.
 
 7.3.  New PvD Proxy Protocol Registry
 
-   IANA is requested to create a new registry "Proxy Protocol PvD
-   Values" within the "Provisioning Domains (PvDs)" registry page.  This
-   new registry reserves JSON values for the protocol key in proxies
-   sub-dictionaries.  The initial contents of this registry are given in
+   IANA has created a new registry "Proxy Protocol PvD Values" within
+   the "Provisioning Domains (PvDs)" registry page.  This new registry
+   reserves JSON values for the protocol key in proxies sub-
+   dictionaries.  The initial contents of this registry are given in
    Table 2.
 
    New assignments in the "Proxy Protocol PvD Values" registry will be
@@ -992,11 +992,11 @@ content-length = 322
 
 7.4.  New PvD Proxy Destination Rule Registry
 
-   IANA is requested to create a new registry "Proxy Destination Rule
-   PvD Keys" within the "Provisioning Domains (PvDs)" registry page.
-   This new registry reserves JSON keys for use in sub-dictionaries
-   under the proxy-match key.  The initial contents of this registry are
-   given in Table 3.
+   IANA has created a new registry "Proxy Destination Rule PvD Keys"
+   within the "Provisioning Domains (PvDs)" registry page.  This new
+   registry reserves JSON keys for use in sub-dictionaries under the
+   proxy-match key.  The initial contents of this registry are given in
+   Table 3.
 
    New assignments in the "Proxy Destination Rule PvD Keys" registry
    will be administered by IANA through Expert Review [RFC8126].
@@ -1007,10 +1007,10 @@ content-length = 322
 
 7.5.  New DNS SVCB Service Parameter Key (SvcParamKey)
 
-   IANA is requested to add a new entry to the "DNS SVCB Service
-   Parameter Keys (SvcParamKeys)" registry [IANA_SVCB]:
+   IANA has added a new entry to the "DNS SVCB Service Parameter Keys
+   (SvcParamKeys)" registry [IANA_SVCB]:
 
-   *  Number: TBD
+   *  Number: 11
 
    *  Name: pvd
 
@@ -1018,7 +1018,7 @@ content-length = 322
 
    *  Change Controller: IETF
 
-   *  Reference: RFC XXXXX, Section 2.1
+   *  Reference: RFC 10088, Section 2.1
 
 8.  References
 
