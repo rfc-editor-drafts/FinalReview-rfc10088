@@ -462,7 +462,7 @@ Table of Contents
        {
          "protocol": "connect-udp",
          "proxy":
-               "https://proxy.example.org/masque{?target_host,target_port}"
+           "https://proxy.example.org/masque{?target_host,target_port}"
        }
      ]
    }
@@ -752,12 +752,13 @@ Table of Contents
        {
          "protocol": "connect-udp",
          "proxy":
-               "https://proxy.example.org/masque/udp/{target_host},{target_port}",
+     "https://proxy.example.org/masque/udp/{target_host},{target_port}",
          "identifier": "default_proxy"
        },
        {
          "protocol": "connect-ip",
-         "proxy": "https://proxy.example.org/masque/ip{?target,ipproto}",
+         "proxy":
+           "https://proxy.example.org/masque/ip{?target,ipproto}",
          "identifier": "default_proxy"
        }
      ],
@@ -941,7 +942,8 @@ Table of Contents
    [
     {
      "protocol": "connect-udp",
-     "proxy": "https://proxy.example.org/masque{?target_host,target_port}"
+     "proxy":
+       "https://proxy.example.org/masque{?target_host,target_port}"
     }
    ]
 
