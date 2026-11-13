@@ -65,7 +65,7 @@ Table of Contents
      4.2.  Using Destination Rules
      4.3.  Proprietary Keys in Destination Rules
      4.4.  Examples
-   5.  Discovering Proxies From Network PvDs
+   5.  Discovering Proxies from Network PvDs
    6.  Security Considerations
    7.  IANA Considerations
      7.1.  New PvD Additional Information Key
@@ -864,7 +864,7 @@ Table of Contents
    subdomains of "example.org", i.e., "*.example.org" will be forwarded
    to "proxy2.example.org:80".
 
-5.  Discovering Proxies From Network PvDs
+5.  Discovering Proxies from Network PvDs
 
    [PVDDATA] defines how PvD Additional Information is discovered based
    on network advertisements using Router Advertisements [RFC4861].
